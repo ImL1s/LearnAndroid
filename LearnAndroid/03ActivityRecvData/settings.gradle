@@ -1,1 +1,1 @@
-include ':app', ':1.simpletransfer', ':2.sendbundle'
+include ':app', ':1.simpletransfer', ':2.sendbundle', ':3.sendvalueobject', ':4.getactivityreturnvalue'

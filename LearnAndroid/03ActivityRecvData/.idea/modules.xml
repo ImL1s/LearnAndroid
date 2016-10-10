@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/03ActivityRecvData.iml" filepath="$PROJECT_DIR$/03ActivityRecvData.iml" />
       <module fileurl="file://$PROJECT_DIR$/1.simpletransfer/1.simpletransfer.iml" filepath="$PROJECT_DIR$/1.simpletransfer/1.simpletransfer.iml" />
       <module fileurl="file://$PROJECT_DIR$/2.sendbundle/2.sendbundle.iml" filepath="$PROJECT_DIR$/2.sendbundle/2.sendbundle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/3.sendvalueobject/3.sendvalueobject.iml" filepath="$PROJECT_DIR$/3.sendvalueobject/3.sendvalueobject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/4.getactivityreturnvalue/4.getactivityreturnvalue.iml" filepath="$PROJECT_DIR$/4.getactivityreturnvalue/4.getactivityreturnvalue.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
