@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/03sqlite/03sqlite.iml" filepath="$PROJECT_DIR$/03sqlite/03sqlite.iml" />
       <module fileurl="file://$PROJECT_DIR$/04DataStorage.iml" filepath="$PROJECT_DIR$/04DataStorage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
