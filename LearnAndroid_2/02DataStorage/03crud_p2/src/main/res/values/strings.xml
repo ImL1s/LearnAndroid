@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">03Crud_P2</string>
+    <string name="addBtnTxt">ADD</string>
+    <string name="queryBtnTxt">Query</string>
+    <string name="updateBtnTxt">Update</string>
+    <string name="deleteBtnTxt">Delete</string>
+</resources>

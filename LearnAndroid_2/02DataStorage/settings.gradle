@@ -1,0 +1,1 @@
+include ':app', ':01.CreateSqlite', ':02.crud', ':03crud_p2', ':05listviewbasic', ':06slotmachine', ':07listviewstrange', ':08news'
