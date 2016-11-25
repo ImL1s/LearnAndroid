@@ -1,1 +1,1 @@
-include ':01.ViewSourceCode', ':02.viewnetimage', ':03.news_network'
+include ':01.ViewSourceCode', ':02.viewnetimage', ':03.news_network', ':04.login_network'

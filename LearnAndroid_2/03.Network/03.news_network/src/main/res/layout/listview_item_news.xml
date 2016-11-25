@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:id="@+id/listview_item_news">
+
+    <com.learn.aa223.a03news_network.View.NetWorkImageView
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:id="@+id/headImageView"
+        />
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingRight="15dp"
+        android:layout_marginRight="0dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newsTitleTxt"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:maxLines="1"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newsContentTxt"
+            android:layout_weight="4"
+            android:textSize="13sp"
+            android:textColor="#666"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="#666"
+                android:text="comment"
+                android:id="@+id/comment"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="#000"
+                android:text="type"
+                android:id="@+id/type"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">03.news_network</string>
+    <string name="serverLocal">http://192.168.0.12:8080/AndroidNews/MyServlet</string>
+    <string name="serRemote">http://iml1s.dsmynas.net:10005/AndroidNews/MyServlet</string>
 </resources>

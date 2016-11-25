@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">04.Login_network</string>
+    <string name="cb_remember">記住我</string>
+    <string name="btn_login">登入</string>
+</resources>
