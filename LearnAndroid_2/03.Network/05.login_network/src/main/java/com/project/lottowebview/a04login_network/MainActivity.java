@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_login.setOnClickListener(this);
     }
 
+    // 登入處理
     private  void login()
     {
-        LoginHttpUtil.loginForNetworkByGet(handler,this.ed_account.getText().toString(),this.ed_password.getText().toString(),"");
+//        LoginHttpUtil.loginForNetworkByGet(handler,this.ed_account.getText().toString(),this.ed_password.getText().toString(),"http://192.168.0.18:8080/AndroidLogin/Get");
+        LoginHttpUtil.loginForNetworkByPost(handler,this.ed_account.getText().toString(),this.ed_password.getText().toString(),"http://192.168.0.18:8080/AndroidLogin/Get");
     }
 
     @Override
@@ -76,10 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result.contains("succ"))
         {
             Toast.makeText(this,"Get登入成功",Toast.LENGTH_LONG).show();
+            if(cb_rem.isChecked()) Toast.makeText(this,"記憶密碼",Toast.LENGTH_LONG).show();
         }
         else
         {
-            Toast.makeText(this,"Post登入失敗",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Get登入失敗",Toast.LENGTH_LONG).show();
         }
     }
 
