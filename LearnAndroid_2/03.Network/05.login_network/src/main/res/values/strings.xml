@@ -2,4 +2,6 @@
     <string name="app_name">04.Login_network</string>
     <string name="cb_remember">記住我</string>
     <string name="btn_login">登入</string>
+    <string name="et_account_hint">輸入帳號</string>
+    <string name="et_pwd_hint">輸入密碼</string>
 </resources>

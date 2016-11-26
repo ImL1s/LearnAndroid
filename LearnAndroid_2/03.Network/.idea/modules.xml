@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/03.Network.iml" filepath="$PROJECT_DIR$/03.Network.iml" />
       <module fileurl="file://$PROJECT_DIR$/03.news_network/03.news_network.iml" filepath="$PROJECT_DIR$/03.news_network/03.news_network.iml" />
       <module fileurl="file://$PROJECT_DIR$/04.login_network/04.login_network.iml" filepath="$PROJECT_DIR$/04.login_network/04.login_network.iml" />
+      <module fileurl="file://$PROJECT_DIR$/04.smartimage/04.smartimage.iml" filepath="$PROJECT_DIR$/04.smartimage/04.smartimage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05.login_network/05.login_network.iml" filepath="$PROJECT_DIR$/05.login_network/05.login_network.iml" />
     </modules>
   </component>
 </project>

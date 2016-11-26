@@ -6,11 +6,13 @@
     tools:context="com.project.lottowebview.a04login_network.MainActivity">
 
     <EditText
+        android:hint="@string/et_account_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ed_accountTxt"/>
 
     <EditText
+        android:hint="@string/et_pwd_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ed_passwordTxt"/>
