@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/06.Broadcast_StyleAndInternational.iml" filepath="$PROJECT_DIR$/06.Broadcast_StyleAndInternational.iml" />
+      <module fileurl="file://$PROJECT_DIR$/1_ipphone/1_ipphone.iml" filepath="$PROJECT_DIR$/1_ipphone/1_ipphone.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
