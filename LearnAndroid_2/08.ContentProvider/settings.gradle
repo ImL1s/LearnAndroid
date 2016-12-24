@@ -1,0 +1,1 @@
+include ':app', ':02_readotherappdb', ':01_contentprovider', ':03_smsbackup', ':04_smsinsert', ':05_querycontacts', ':06_insertcontacts', ':07_contentobserve'

@@ -3,12 +3,19 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/1_ipphone" />
+            <option value="$PROJECT_DIR$/2_sdcardlistening" />
+            <option value="$PROJECT_DIR$/3_省電助手" />
+            <option value="$PROJECT_DIR$/4_刪除應用" />
+            <option value="$PROJECT_DIR$/5_監聽重起" />
+            <option value="$PROJECT_DIR$/6_發送一條無序廣播" />
+            <option value="$PROJECT_DIR$/7_接收自定義廣播" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>

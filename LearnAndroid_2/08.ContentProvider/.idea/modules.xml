@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/01_contentprovider/01_contentprovider.iml" filepath="$PROJECT_DIR$/01_contentprovider/01_contentprovider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02_readotherappdb/02_readotherappdb.iml" filepath="$PROJECT_DIR$/02_readotherappdb/02_readotherappdb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/03_smsbackup/03_smsbackup.iml" filepath="$PROJECT_DIR$/03_smsbackup/03_smsbackup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/04_smsinsert/04_smsinsert.iml" filepath="$PROJECT_DIR$/04_smsinsert/04_smsinsert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_querycontacts/05_querycontacts.iml" filepath="$PROJECT_DIR$/05_querycontacts/05_querycontacts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06_insertcontacts/06_insertcontacts.iml" filepath="$PROJECT_DIR$/06_insertcontacts/06_insertcontacts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07_contentobserve/07_contentobserve.iml" filepath="$PROJECT_DIR$/07_contentobserve/07_contentobserve.iml" />
+      <module fileurl="file://$PROJECT_DIR$/08.ContentProvider.iml" filepath="$PROJECT_DIR$/08.ContentProvider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

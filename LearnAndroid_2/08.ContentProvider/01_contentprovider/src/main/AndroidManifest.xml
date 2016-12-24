@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="download.test.com.a01_contentprovider">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!--內容提供者配置 在Android 4.3以後的 exported默認為false 所以要顯示Exported-->
+        <provider
+            android:authorities="com.ys.contentprovider"
+            android:name=".PersonProvider"
+            android:exported="true">
+        </provider>
+
+    </application>
+
+</manifest>

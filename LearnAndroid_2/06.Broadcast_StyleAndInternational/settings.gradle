@@ -1,1 +1,1 @@
-include ':app', ':1_ipphone'
+include ':app', ':1_ipphone', ':2_sdcardlistening', ':3_省電助手', ':4_刪除應用', ':5_監聽重起', ':6_發送一條無序廣播', ':7_接收自定義廣播'

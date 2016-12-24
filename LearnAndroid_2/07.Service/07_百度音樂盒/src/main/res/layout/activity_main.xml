@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="download.test.com.a07_.MainActivity">
+
+    <Button
+        android:onClick="playMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="playMusic"
+        />
+
+    <Button
+        android:onClick="stopMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stopMusic"
+        />
+
+    <Button
+        android:onClick="pauseMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pauseMusic"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bindService"
+        android:onClick="bindService"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unBindService"
+        android:onClick="unBindService"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:onClick="test"/>
+
+</LinearLayout>
