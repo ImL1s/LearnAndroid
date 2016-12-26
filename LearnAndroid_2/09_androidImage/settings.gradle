@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':01_Scaleimage', ':02_copyimage', ':06_tearshirt'
