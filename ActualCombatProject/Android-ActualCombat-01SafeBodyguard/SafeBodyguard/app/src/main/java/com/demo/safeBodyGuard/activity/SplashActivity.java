@@ -1,47 +1,53 @@
 package com.demo.safeBodyGuard.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
+import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
+import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.handler.SplashHandler;
 import com.demo.safeBodyGuard.model.VersionBean;
 import com.demo.safeBodyGuard.utils.JsonUtil;
+import com.demo.safeBodyGuard.utils.LogUtil;
 import com.demo.safeBodyGuard.utils.PackageUtil;
-import com.demo.safeBodyGuard.manager.TimerManager;
 import com.demo.safeBodyGuard.utils.ThreadUtil;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 /**
  * Created by iml1s-macpro on 2016/12/28.
  */
 
-public class SplashActivity extends Activity
+@ContentView(R.layout.activity_splash)
+public class SplashActivity extends BaseActivity
 {
+    @ViewInject(R.id.tv_version_name)
     private TextView tv_version_name;
-
-    private SplashHandler handler = new SplashHandler(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
-        initUI();
+
         initData();
         checkVersion();
 
     }
 
-
-    private void initUI()
+    @Override
+    public IActivityHandler initHandler()
     {
-        tv_version_name = (TextView) findViewById(R.id.tv_version_name);
+        return new SplashHandler(this);
     }
 
     private void initData()
@@ -57,9 +63,36 @@ public class SplashActivity extends Activity
         ThreadUtil.scheduleTaskInMinTime(() ->
         {
             // TODO 網路取得版本JSON資料
+            RequestParams params = new RequestParams(getResources().getString(R.string.apk_check_version_url));
+            x.http().get(params, new Callback.CommonCallback<String>()
+            {
+                @Override
+                public void onSuccess(String result)
+                {
+                    LogUtil.log(result);
+//                    "{mCode:  2,mName:'1.0.0',mDownloadURL:'" + getResources().getString(R.string.apk_download_url) + "'}"
+                    VersionBean bean = JsonUtil.getObject(result, new VersionBean());
+                    VersionBean.setServerVersion(bean);
+                }
 
-            VersionBean bean = JsonUtil.getObject("{mCode:2,mName:'1.0.0',mDownloadURL:'" + getResources().getString(R.string.apk_download_url) + "'}", new VersionBean());
-            VersionBean.setServerVersion(bean);
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback)
+                {
+                    LogUtil.log("onError");
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex)
+                {
+                    LogUtil.log("onError");
+                }
+
+                @Override
+                public void onFinished()
+                {
+                    LogUtil.log("onFinished");
+                }
+            });
 
         }, () ->
         {
@@ -80,7 +113,7 @@ public class SplashActivity extends Activity
                 msg.sendToTarget();
             }
 
-        }, 2000);
+        }, Config.SPLASH_MIN_INTERVAL_MS);
 
     }
 
@@ -91,8 +124,4 @@ public class SplashActivity extends Activity
 
     }
 
-    public SplashHandler getHandler()
-    {
-        return handler;
-    }
 }

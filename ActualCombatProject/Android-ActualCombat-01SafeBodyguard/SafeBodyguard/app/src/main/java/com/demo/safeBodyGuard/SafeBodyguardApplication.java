@@ -1,6 +1,7 @@
 package com.demo.safeBodyGuard;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import org.xutils.x;
 
@@ -17,5 +18,7 @@ public class SafeBodyguardApplication extends Application
 
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG);
+
+//        Toast.makeText(this,"***************",Toast.LENGTH_LONG).show();
     }
 }

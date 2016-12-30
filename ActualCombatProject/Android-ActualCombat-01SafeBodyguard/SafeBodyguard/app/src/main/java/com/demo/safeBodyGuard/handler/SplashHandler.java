@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Created by iml1s-macpro on 2016/12/29.
  */
 
-public class SplashHandler extends Handler
+public class SplashHandler extends IActivityHandler
 {
     private HashMap<Integer,IHandlerStrategy> messageStrategyMap  = null;
     private HashMap<Integer,IActivityResultHandlerStrategy> activityRSStrategyMap  = null;
