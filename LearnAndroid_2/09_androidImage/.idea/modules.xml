@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/01_Scaleimage/01_Scaleimage.iml" filepath="$PROJECT_DIR$/01_Scaleimage/01_Scaleimage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02_copyimage/02_copyimage.iml" filepath="$PROJECT_DIR$/02_copyimage/02_copyimage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06_tearshirt/06_tearshirt.iml" filepath="$PROJECT_DIR$/06_tearshirt/06_tearshirt.iml" />
       <module fileurl="file://$PROJECT_DIR$/09_androidImage.iml" filepath="$PROJECT_DIR$/09_androidImage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

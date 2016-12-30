@@ -5,10 +5,16 @@
       <module fileurl="file://$PROJECT_DIR$/06.Broadcast_StyleAndInternational.iml" filepath="$PROJECT_DIR$/06.Broadcast_StyleAndInternational.iml" />
       <module fileurl="file://$PROJECT_DIR$/1_ipphone/1_ipphone.iml" filepath="$PROJECT_DIR$/1_ipphone/1_ipphone.iml" />
       <module fileurl="file://$PROJECT_DIR$/2_sdcardlistening/2_sdcardlistening.iml" filepath="$PROJECT_DIR$/2_sdcardlistening/2_sdcardlistening.iml" />
+      <module fileurl="file://$PROJECT_DIR$/2_sdcardlistening/2_sdcardlistening.iml" filepath="$PROJECT_DIR$/2_sdcardlistening/2_sdcardlistening.iml" />
+      <module fileurl="file://$PROJECT_DIR$/3_省電助手/3_省電助手.iml" filepath="$PROJECT_DIR$/3_省電助手/3_省電助手.iml" />
       <module fileurl="file://$PROJECT_DIR$/3_省電助手/3_省電助手.iml" filepath="$PROJECT_DIR$/3_省電助手/3_省電助手.iml" />
       <module fileurl="file://$PROJECT_DIR$/4_刪除應用/4_刪除應用.iml" filepath="$PROJECT_DIR$/4_刪除應用/4_刪除應用.iml" />
+      <module fileurl="file://$PROJECT_DIR$/4_刪除應用/4_刪除應用.iml" filepath="$PROJECT_DIR$/4_刪除應用/4_刪除應用.iml" />
+      <module fileurl="file://$PROJECT_DIR$/5_監聽重起/5_監聽重起.iml" filepath="$PROJECT_DIR$/5_監聽重起/5_監聽重起.iml" />
       <module fileurl="file://$PROJECT_DIR$/5_監聽重起/5_監聽重起.iml" filepath="$PROJECT_DIR$/5_監聽重起/5_監聽重起.iml" />
       <module fileurl="file://$PROJECT_DIR$/6_發送一條無序廣播/6_發送一條無序廣播.iml" filepath="$PROJECT_DIR$/6_發送一條無序廣播/6_發送一條無序廣播.iml" />
+      <module fileurl="file://$PROJECT_DIR$/6_發送一條無序廣播/6_發送一條無序廣播.iml" filepath="$PROJECT_DIR$/6_發送一條無序廣播/6_發送一條無序廣播.iml" />
+      <module fileurl="file://$PROJECT_DIR$/7_接收自定義廣播/7_接收自定義廣播.iml" filepath="$PROJECT_DIR$/7_接收自定義廣播/7_接收自定義廣播.iml" />
       <module fileurl="file://$PROJECT_DIR$/7_接收自定義廣播/7_接收自定義廣播.iml" filepath="$PROJECT_DIR$/7_接收自定義廣播/7_接收自定義廣播.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
