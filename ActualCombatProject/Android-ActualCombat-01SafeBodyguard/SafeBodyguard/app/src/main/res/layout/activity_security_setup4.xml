@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_security_setup4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.demo.safeBodyGuard.activity.SecuritySetup4Activity">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="4,恭喜您,設定完成"/>
+    <CheckBox
+        android:id="@+id/cb_box"
+        android:text="您沒有開啟防盗保護"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!-- 让内部点的控件水平居中 -->
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:background="@drawable/phone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <!-- 图片选择器,在选中和未选中的过程中,切换展示图片 -->
+        <Button
+            android:id="@+id/security4_btn_pre"
+            style="@style/preButton"/>
+        <Button
+            android:id="@+id/security4_btn_next"
+            style="@style/nextButton"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -6,16 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
 import com.demo.safeBodyGuard.R;
-import com.demo.safeBodyGuard.activity.MainActivity;
 import com.demo.safeBodyGuard.define.ActivityResultProtocol;
+import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.model.VersionBean;
 
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
+import org.xutils.common.util.LogUtil;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -54,10 +56,23 @@ public class UpdateVersionStrategy implements IMessageHandlerStrategy
 
         });
 
-        builder.setPositiveButton(R.string.update_version_no,(dialog,which) -> context.startActivity(new Intent(context, MainActivity.class)));
+        Handler target = msg.getTarget();
+        msg = Message.obtain();
+        msg.setTarget(target);
+        msg.what = HandlerProtocol.ENTER_HOME;
 
-        builder.setOnCancelListener(dialog -> {
-            context.startActivity(new Intent(context, MainActivity.class));
+        Message finalMsg = msg;
+
+        builder.setPositiveButton(R.string.update_version_no,(dialog, which) ->
+        {
+            finalMsg.sendToTarget();
+        });
+
+        builder.setOnCancelListener(dialog ->
+        {
+            finalMsg.what = HandlerProtocol.ENTER_HOME;
+            finalMsg.obj = null;
+            finalMsg.sendToTarget();
         });
 
         builder.show();
@@ -115,19 +130,19 @@ public class UpdateVersionStrategy implements IMessageHandlerStrategy
         @Override
         public void onWaiting()
         {
-            Log.d("debug","onWaiting");
+            LogUtil.d("onWaiting");
         }
 
         @Override
         public void onStarted()
         {
-            Log.d("debug","onStarted");
+            LogUtil.d("onStarted");
         }
 
         @Override
         public void onLoading(long total, long current, boolean isDownloading)
         {
-            Log.d("debug",total + "/" + current);
+            LogUtil.d(total + "/" + current);
         }
     }
 }

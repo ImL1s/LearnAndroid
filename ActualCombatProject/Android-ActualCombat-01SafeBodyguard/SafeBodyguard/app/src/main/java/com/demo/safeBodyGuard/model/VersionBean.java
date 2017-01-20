@@ -11,8 +11,8 @@ public class VersionBean
      */
 //    public static int VERSION_CODE_CURRENT = -1;
 
-    private static VersionBean mCurrentVersion = null;
-    private static VersionBean mServerVersion = null;
+    private static VersionBean CURRENT_VERSION = null;
+    private static VersionBean SERVER_VERSION = null;
 
     public int mCode;
 
@@ -40,22 +40,22 @@ public class VersionBean
         this.mName = mName;
     }
 
-    public static VersionBean getServerVersion(){ return mServerVersion; }
+    public static VersionBean getServerVersion(){ return SERVER_VERSION; }
 
-    public static void setServerVersion(VersionBean bean){ mServerVersion = bean; }
+    public static void setServerVersion(VersionBean bean){ SERVER_VERSION = bean; }
 
     public static VersionBean getCurrentVersion()
     {
-        if(mCurrentVersion == null)
+        if(CURRENT_VERSION == null)
         {
-            mCurrentVersion = new VersionBean(-1,null,null);
+            CURRENT_VERSION = new VersionBean(-1,null,null);
         }
-        return mCurrentVersion;
+        return CURRENT_VERSION;
     }
 
     public static void setCurrentVersion(VersionBean bean)
     {
-        mCurrentVersion = bean;
+        CURRENT_VERSION = bean;
     }
 
     public String getDownloadURL()

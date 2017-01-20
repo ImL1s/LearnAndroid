@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <TextView
+            style="@style/TitleStyle"
+            android:text="手機防盜"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="安全號碼"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/activity_setup_over_tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="0000"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_setup_over_tv_phone"
+                android:background="@drawable/listview_divider"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="防盜包含是否開啟"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/iv_lock"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/lock"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_lock"
+                android:background="@drawable/listview_divider"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/activity_setup_over_tv_reset_setup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_reset_setup_bg"
+            android:text="重新進入設置向導"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:padding="5dp"
+            android:text="功能簡介"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:gravity="center_vertical"
+            android:text="GPS追蹤:#*location*#"
+            android:textColor="#000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:gravity="center_vertical"
+            android:text="播放報警音樂:#*alarm*#"
+            android:textColor="#000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:gravity="center_vertical"
+            android:text="數據銷毀:#*wipedata*#"
+            android:textColor="#000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/star_big_on"
+            android:gravity="center_vertical"
+            android:text="遠程鎖屏:#*lockscreen*#"
+            android:textColor="#000"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

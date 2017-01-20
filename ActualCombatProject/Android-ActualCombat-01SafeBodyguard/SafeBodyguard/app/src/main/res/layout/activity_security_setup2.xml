@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_security_setup2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.demo.safeBodyGuard.activity.SecuritySetup2Activity">
+    <TextView
+        style="@style/TitleStyle"
+        android:text="2,綁定SIM卡"/>
+
+    <!-- 讓內部點的控件水平居中 -->
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:text="通過綁定SIM卡:\n下次手機重開機如果發現SIM卡變化就會發出報警簡訊"/>
+
+
+    <com.demo.safeBodyGuard.view.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.demo.safeBodyGuard"
+        mobilesafe:title="綁定SIM卡"
+        mobilesafe:descOn="SIM卡已綁定"
+        mobilesafe:descOff="SIM卡無綁定"
+        android:id="@+id/siv_sim_card"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/security2_btn_pre"
+            style="@style/preButton"
+            />
+
+        <Button
+            android:id="@+id/security2_btn_next"
+            style="@style/nextButton"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

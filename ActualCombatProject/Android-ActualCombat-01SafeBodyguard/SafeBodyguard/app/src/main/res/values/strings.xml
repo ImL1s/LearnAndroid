@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">01_SafeBodyguard</string>
+    <string name="app_name">SafeBodyguard</string>
     <string name="update_version">新版本:</string>
     <string name="update_version_yes">立即更新</string>
     <string name="update_version_no">稍後再說</string>
@@ -7,4 +7,14 @@
     <string name="apk_name">com.app.safeBodyGuard</string>
     <string name="apk_check_version_url">http://iml1s.dsmynas.net:8787/android_splash_test.json</string>
     <string name="apk_download_url">http://appupdate.kcaisafe.com/Download?Name=KC</string>
+    <string name="gv_home_title">功能列表</string>
+    <string name="gv_home_marquee_text">I am the bone of my sword.    Steel is my body,
+        and fire is my blood.    I have created over a thousand blades.
+           Unknown to Death.     Nor known to Life.</string>
+    <string name="dialog_set_pwd_hint">輸入密碼:</string>
+    <string name="dialog_set_pwd_confirm_hint">確認密碼:</string>
+    <string name="dialog_yes">確認</string>
+    <string name="dialog_no">取消</string>
+    <string name="btn_next">下一步</string>
+    <string name="btn_pre">上一步</string>
 </resources>

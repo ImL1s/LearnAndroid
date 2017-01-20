@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.demo.safeBodyGuard.activity.HomeActivity">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="@string/gv_home_title"/>
+
+    <com.demo.safeBodyGuard.view.FocusTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="5dp"
+        android:textColor="#333"
+        android:text="@string/gv_home_marquee_text"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+
+        />
+
+
+    <GridView
+        android:id="@+id/gv_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3">
+    </GridView>
+
+
+</LinearLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="3,設定報警電話號碼"/>
+
+    <!-- 讓內部點的控件水平居中 -->
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:background="@android:drawable/presence_invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:text="設定報警電話號碼:\n下次手機重開機如果發現SIM卡變化就會向設定的報警電話號碼發出報警簡訊"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_alarm_contact"
+            android:layout_weight="4"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:text="選擇聯絡人"
+            android:id="@+id/security3_btn_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!--<com.demo.safeBodyGuard.view.SettingItemView-->
+        <!--xmlns:mobilesafe="http://schemas.android.com/apk/res/volley.test.com.a01_safebodyguard"-->
+        <!--mobilesafe:title="綁定SIM卡"-->
+        <!--mobilesafe:descOn="SIM卡已綁定"-->
+        <!--mobilesafe:descOff="SIM卡無綁定"-->
+        <!--android:id="@+id/siv_sim_card"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/security3_btn_pre"
+            style="@style/preButton"
+            />
+
+        <Button
+            android:id="@+id/security3_btn_next"
+            style="@style/nextButton"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

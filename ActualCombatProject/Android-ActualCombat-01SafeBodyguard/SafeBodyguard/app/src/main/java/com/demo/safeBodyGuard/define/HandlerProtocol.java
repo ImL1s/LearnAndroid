@@ -24,4 +24,6 @@ public class HandlerProtocol
     public final static int IO_ERROR = 8;
 
     public final static int JSON_ERROR = 16;
+    
+    public static final int CONTACTS_READ_OVER = 32;
 }

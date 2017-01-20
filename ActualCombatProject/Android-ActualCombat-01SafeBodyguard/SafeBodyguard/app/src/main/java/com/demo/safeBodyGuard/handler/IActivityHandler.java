@@ -10,5 +10,10 @@ import android.os.Message;
 
 public abstract class IActivityHandler extends Handler
 {
+    public IActivityHandler()
+    {
+        super();
+    }
+
     public abstract void handleActivityResult(int requestCode, int resultCode, Intent data);
 }

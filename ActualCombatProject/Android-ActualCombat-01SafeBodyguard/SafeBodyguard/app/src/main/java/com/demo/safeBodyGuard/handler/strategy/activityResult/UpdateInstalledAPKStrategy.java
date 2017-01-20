@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Message;
 
-import com.demo.safeBodyGuard.activity.MainActivity;
+import com.demo.safeBodyGuard.activity.HomeActivity;
 
 /**
  * Created by iml1s-macpro on 2016/12/30.
@@ -14,6 +14,6 @@ public class UpdateInstalledAPKStrategy implements IActivityResultHandlerStrateg
     @Override
     public void handle(Message msg, Context context)
     {
-        context.startActivity(new Intent(context,MainActivity.class));
+        context.startActivity(new Intent(context,HomeActivity.class));
     }
 }

@@ -14,4 +14,9 @@ public class LogUtil
     {
         Log.d(TAG_DEBUG,str);
     }
+
+    public static void log(String format,String str)
+    {
+        Log.d(TAG_DEBUG,String.format(format,str));
+    }
 }
