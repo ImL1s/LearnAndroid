@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"/>
 
     <!--自定義命名空間前綴(mobilesafe),下面的屬性必須也以(mobileSafe開頭),不然在自定義控件的java代碼中找不到(attrs)-->
-    <com.demo.safeBodyGuard.view.SettingItemView
+    <com.demo.safeBodyGuard.view.SettingItemCheckBoxView
         android:id="@+id/setting_item_test1"
         xmlns:mobilesafe="http://schemas.android.com/apk/res/com.demo.safeBodyGuard"
         mobilesafe:title="Title"

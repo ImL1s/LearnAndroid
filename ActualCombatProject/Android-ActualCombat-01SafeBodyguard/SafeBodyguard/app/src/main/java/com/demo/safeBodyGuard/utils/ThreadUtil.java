@@ -6,6 +6,11 @@ package com.demo.safeBodyGuard.utils;
 
 public class ThreadUtil
 {
+    public static void start(Runnable runnable)
+    {
+        new Thread(runnable).start();
+    }
+
     /*
      * 安排兩個任務,這兩個任務中間間隔必須超過minTime毫秒
      */

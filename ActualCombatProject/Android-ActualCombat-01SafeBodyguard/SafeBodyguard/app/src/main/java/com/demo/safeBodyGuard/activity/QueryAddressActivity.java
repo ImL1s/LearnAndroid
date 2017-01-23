@@ -1,10 +1,14 @@
 package com.demo.safeBodyGuard.activity;
 
+import android.app.Service;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +23,7 @@ import java.io.File;
 public class QueryAddressActivity extends BaseActivity implements View.OnClickListener, TextWatcher
 {
     private EditText et_query;
-    private Button btn_query;
+    private Button   btn_query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,9 +62,20 @@ public class QueryAddressActivity extends BaseActivity implements View.OnClickLi
 
     private void onQueryBtnClick()
     {
-        String result = AddressDAO.getAddress(et_query.getText().toString());
+        String inputTxt = et_query.getText().toString();
+
+        if (inputTxt.equals(inputTxt))
+        {
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.shake);
+            et_query.startAnimation(animation);
+            Vibrator vibrate = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+            vibrate.vibrate(new long[]{0, 1000, 500, 2000}, -1);
+            return;
+        }
+
+        String result = AddressDAO.getAddress(inputTxt);
         LogUtil.log(result);
-        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 
     @Override

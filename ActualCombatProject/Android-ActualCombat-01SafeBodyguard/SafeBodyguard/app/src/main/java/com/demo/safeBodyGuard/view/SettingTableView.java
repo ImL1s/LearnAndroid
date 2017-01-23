@@ -12,7 +12,6 @@ import com.demo.safeBodyGuard.adapter.SettingTableAdapter;
 import com.demo.safeBodyGuard.model.SettingItemInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by iml1s-macpro on 2017/1/5.
@@ -20,31 +19,31 @@ import java.util.List;
 
 public class SettingTableView extends ScrollView implements View.OnClickListener
 {
-//    xmlns:mobilesafe="http://schemas.android.com/apk/res/com.itheima.mobilesafe74"
+    //    xmlns:mobilesafe="http://schemas.android.com/apk/res/com.itheima.mobilesafe74"
     public static final String NAME_SPACE = "http://schemas.android.com/apk/res/com.demo.SafeBodyguard";
 
     private SettingTableAdapter mAdapter = null;
 
     private Context mContext = null;
 
-    private ArrayList<SettingItemView> settingItemViews = null;
+    private ArrayList<AbsSettingItemView> settingItemViews = null;
 
     private AdapterView.OnItemClickListener onItemClickListener = null;
 
     public SettingTableView(Context context)
     {
-        this(context,null);
+        this(context, null);
     }
 
     public SettingTableView(Context context, AttributeSet attrs)
     {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public SettingTableView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-        if(isInEditMode()) return;
+        if (isInEditMode()) return;
         mContext = context;
     }
 
@@ -60,9 +59,19 @@ public class SettingTableView extends ScrollView implements View.OnClickListener
         onItemClickListener = listener;
     }
 
-    public SettingItemView getItem(int position)
+    public AbsSettingItemView getItem(int position)
     {
-        if(this.settingItemViews != null) return settingItemViews.get(position);
+        if (this.settingItemViews != null) return settingItemViews.get(position);
+
+        return null;
+    }
+
+    public <T> T getItem(T t, int position)
+    {
+        if (this.settingItemViews != null && t.getClass().isInstance(AbsSettingItemView.class))
+        {
+            return (T) settingItemViews.get(position);
+        }
 
         return null;
     }
@@ -78,20 +87,31 @@ public class SettingTableView extends ScrollView implements View.OnClickListener
         for (int i = 0; i < mAdapter.getCount(); i++)
         {
             SettingItemInfo itemInfo = mAdapter.getItemInfo(i);
-            SettingItemView stiView = new SettingItemView(mContext);
+
+            AbsSettingItemView stiView = null;
+
+            if (itemInfo.getItemType() == SettingItemInfo.ITEM_TYPE_CHECK_BOX)
+            {
+                stiView = new SettingItemCheckBoxView(mContext);
+                stiView.setDesc(itemInfo.getDescOff());
+            }
+            else if (itemInfo.getItemType() == SettingItemInfo.ITEM_TYPE_CHECK_ARROWS)
+            {
+                stiView = new SettingItemArrowsView(mContext);
+                stiView.setDesc(itemInfo.getDefaultDesc());
+            }
+
             stiView.setItemInfo(itemInfo);
             stiView.setTitle(itemInfo.getTitle());
-            stiView.setDesc(itemInfo.getDescOff());
             stiView.setPosition(i);
 
             linearLayout.addView(stiView);
             settingItemViews.add(stiView);
 
             // 是否有單獨為某一個Item設定點擊事件
-            if(itemInfo.getOnClickListener() != null)
+            if (itemInfo.getOnClickListener() != null)
                 stiView.setOnClickListener(itemInfo.getOnClickListener());
-            else
-                stiView.setOnClickListener(this);
+            else stiView.setOnClickListener(this);
         }
 
         this.addView(linearLayout);
@@ -100,8 +120,9 @@ public class SettingTableView extends ScrollView implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        SettingItemView stiView = (SettingItemView)v;
+        SettingItemCheckBoxView stiView = (SettingItemCheckBoxView) v;
 
-        onItemClickListener.onItemClick(null,stiView,stiView.getPosition(),-1);
+        if (onItemClickListener != null)
+            onItemClickListener.onItemClick(null, stiView, stiView.getPosition(), -1);
     }
 }

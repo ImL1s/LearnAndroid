@@ -2,6 +2,8 @@ package com.demo.safeBodyGuard.define;
 
 import android.net.Uri;
 
+import com.demo.safeBodyGuard.R;
+
 /**
  * Created by iml1s-macpro on 2016/12/30.
  */
@@ -82,6 +84,18 @@ public class Config
 
     //region APP
     //    public static final String APP_PKG_NAME = "com.demo.safeBodyGuard";
+    //endregion
+
+    //region drawable
+    public static final String[] DRAWABLE_DISPLAY_NAME_ARRAY_QUERY_ADDRESS_VIEW_BACKGROUND = new String[]{"藍色",
+                                                                                                          "綠色",
+                                                                                                          "白色"
+
+    };
+
+    public static final int[] DRAWABLE_ID_ARRAY_QUERY_ADDRESS_VIEW_BACKGROUND = new int[]{R.drawable.call_locate_blue,
+                                                                                          R.drawable.call_locate_green,
+                                                                                          R.drawable.call_locate_white};
     //endregion
 
 }

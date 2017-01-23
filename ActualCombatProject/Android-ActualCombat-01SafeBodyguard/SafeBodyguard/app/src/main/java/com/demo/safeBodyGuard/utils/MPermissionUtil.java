@@ -211,7 +211,7 @@ public class MPermissionUtil
 
         if (!(isActivity || isSupportFragment || isAppFragment))
         {
-            throw new IllegalArgumentException("Caller must be an Activity or a Fragment");
+            throw new IllegalArgumentException("Caller must be an Activity or QUERY_PHONE_ADDRESS_COMPLETED Fragment");
         }
     }
 

@@ -55,7 +55,18 @@ public abstract class BaseActivity extends Activity
     {
         if (Build.VERSION.SDK_INT >= 23)
         {
-            MPermissionUtil.requestPermissionsResult(this, Config.PERMISSION_ALL_REQUEST_CODE, new String[]{Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, new MPermissionUtil.OnPermissionListener()
+            MPermissionUtil.requestPermissionsResult(this, Config.PERMISSION_ALL_REQUEST_CODE, new String[]{Manifest.permission.INTERNET,
+                                                                                                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                                                                            Manifest.permission.READ_PHONE_STATE,
+                                                                                                            Manifest.permission.READ_CONTACTS,
+                                                                                                            Manifest.permission.READ_SMS,
+                                                                                                            Manifest.permission.SEND_SMS,
+                                                                                                            Manifest.permission.RECEIVE_SMS,
+                                                                                                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                                                                            Manifest.permission.ACCESS_FINE_LOCATION,
+                                                                                                            Manifest.permission.READ_PHONE_STATE
+            },
+                                                     new MPermissionUtil.OnPermissionListener()
             {
                 @Override
                 public void onPermissionGranted()
@@ -66,7 +77,7 @@ public abstract class BaseActivity extends Activity
                 @Override
                 public void onPermissionDenied()
                 {
-                    MPermissionUtil.showTipsDialog(BaseActivity.this);
+//                    MPermissionUtil.showTipsDialog(BaseActivity.this);
                 }
             });
         }

@@ -13,8 +13,9 @@ import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.model.SettingItemInfo;
 import com.demo.safeBodyGuard.receiver.SafeGuardDeviceAdminReceiver;
+import com.demo.safeBodyGuard.service.PhoneAddressService;
 import com.demo.safeBodyGuard.utils.SPUtil;
-import com.demo.safeBodyGuard.view.SettingItemView;
+import com.demo.safeBodyGuard.view.SettingItemCheckBoxView;
 import com.demo.safeBodyGuard.view.SettingTableView;
 
 import org.xutils.view.annotation.ContentView;
@@ -47,7 +48,7 @@ public class SettingActivity extends BaseActivity
         initSettingTableView();
 
         // 單獨在XML文件中定義的SettingItemView設定方式
-        SettingItemView si = (SettingItemView) findViewById(R.id.setting_item_test1);
+        SettingItemCheckBoxView si = (SettingItemCheckBoxView) findViewById(R.id.setting_item_test1);
         si.setChecked(SPUtil.getBool(getApplicationContext(), Config.SP_KEY_TEST, false));
         si.setOnClickListener(v -> SPUtil.setBool(getApplicationContext(), Config.SP_KEY_TEST, si.isChecked()));
 
@@ -58,8 +59,7 @@ public class SettingActivity extends BaseActivity
     {
         super.onStart();
 
-        settingTableView.getItem(0).setCheckedAndText(SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, false));
-        settingTableView.getItem(1).setCheckedAndText(devicePolicyManager.isAdminActive(cName));
+        refreshUI();
     }
 
     @Override
@@ -68,6 +68,13 @@ public class SettingActivity extends BaseActivity
         return null;
     }
 
+
+    private void refreshUI()
+    {
+        ((SettingItemCheckBoxView) (settingTableView.getItem(0))).setCheckedAndText(SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, false));
+        ((SettingItemCheckBoxView) (settingTableView.getItem(1))).setCheckedAndText(devicePolicyManager.isAdminActive(cName));
+        ((SettingItemCheckBoxView) (settingTableView.getItem(4))).setCheckedAndText(!devicePolicyManager.isAdminActive(cName));
+    }
 
     private void initSettingTableView()
     {
@@ -84,8 +91,9 @@ public class SettingActivity extends BaseActivity
                 list.add(new SettingItemInfo("啟動設備管理員權限", "設備管理員權限已開啟", "設備管理員權限已關閉"));
                 list.add(new SettingItemInfo("這是鎖頻測試", "", ""));
                 list.add(new SettingItemInfo("這是刪除本應用測試", "", ""));
-                list.add(new SettingItemInfo("這是移除Admin權限測試","",""));
-                list.add(new SettingItemInfo("這是鎖頻密碼設定,密碼aaa","",""));
+                list.add(new SettingItemInfo("這是移除Admin權限測試", "", ""));
+                list.add(new SettingItemInfo("這是鎖頻密碼設定,密碼aaa", "", ""));
+                list.add(new SettingItemInfo("懸浮顯示來電歸屬地", "已開啟", "已關閉"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
@@ -100,7 +108,7 @@ public class SettingActivity extends BaseActivity
 
         settingTableView.setOnItemClickListener((parent, view, position, id) -> {
 
-            SettingItemView stiView = (SettingItemView) view;
+            SettingItemCheckBoxView stiView = (SettingItemCheckBoxView) view;
 
             switch (position)
             {
@@ -111,7 +119,7 @@ public class SettingActivity extends BaseActivity
                 case 1:
                     Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                     intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cName);
-                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "this is a explanation");
+                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "this is QUERY_PHONE_ADDRESS_COMPLETED explanation");
                     startActivity(intent);
                     break;
 
@@ -139,10 +147,25 @@ public class SettingActivity extends BaseActivity
                     break;
 
                 case 5:
-                    devicePolicyManager.resetPassword("aaa",0);
+                    devicePolicyManager.resetPassword("aaa", 0);
                     break;
 
+                case 6:
+                    Intent serviceIntent = new Intent(this, PhoneAddressService.class);
+
+                    if (((SettingItemCheckBoxView) view).isChecked())
+                    {
+                        startService(serviceIntent);
+                    }
+                    else
+                    {
+                        stopService(serviceIntent);
+                    }
+
+                    break;
             }
+
+            refreshUI();
         });
     }
 }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @see <QUERY_PHONE_ADDRESS_COMPLETED href="http://d.android.com/tools/testing">Testing documentation</QUERY_PHONE_ADDRESS_COMPLETED>
  */
 public class ExampleUnitTest
 {

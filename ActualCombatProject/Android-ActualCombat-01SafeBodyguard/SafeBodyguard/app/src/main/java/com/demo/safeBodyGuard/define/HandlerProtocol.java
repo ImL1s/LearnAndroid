@@ -26,4 +26,6 @@ public class HandlerProtocol
     public final static int JSON_ERROR = 16;
     
     public static final int CONTACTS_READ_OVER = 32;
+
+    public final static int QUERY_PHONE_ADDRESS_COMPLETED = 0x11;
 }

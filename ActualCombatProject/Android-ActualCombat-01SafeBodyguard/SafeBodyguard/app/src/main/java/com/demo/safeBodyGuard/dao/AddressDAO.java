@@ -15,7 +15,7 @@ public class AddressDAO
 
     private static SQLiteDatabase mChinaDatabase = null;
 
-//    private static SQLiteDatabase mTWDatabase = null;
+    //    private static SQLiteDatabase mTWDatabase = null;
 
 
     public static void setDBPath(String path)
@@ -29,7 +29,9 @@ public class AddressDAO
         String chinaRegular = "^1[3-8]\\d{9}";
         String taiwanRegular = "^09\\d{8}";
 
-        if(phone.matches(chinaRegular))
+        String result = "Not found";
+
+        if (phone.matches(chinaRegular))
         {
             phone = phone.substring(0, 7);
 
@@ -48,21 +50,37 @@ public class AddressDAO
                 if (cursor.moveToNext())
                 {
                     String area = cursor.getString(0);
-                    mChinaDatabase.close();
 
-                    return area;
+                    result = area;
                 }
             }
         }
-        else if(phone.matches(taiwanRegular))
+        else if (phone.matches(taiwanRegular))
         {
-            return "Taiwan Phone";
+            result = "Taiwan Phone";
+        }
+        else
+        {
+            switch (phone.length())
+            {
+                case 3:
+                    result = "報警電話";
+                    break;
+
+                case 4:
+                    result = "模擬器";
+                    break;
+
+                case 5:
+                    result = "大陸服務電話";
+                    break;
+            }
         }
 
-        if(mChinaDatabase.isOpen()) mChinaDatabase.close();
+        if (mChinaDatabase != null && mChinaDatabase.isOpen()) mChinaDatabase.close();
 
 
-        return "Not found";
+        return result;
     }
 
 
@@ -73,7 +91,7 @@ public class AddressDAO
 
     private static void initTaiwanDB()
     {
-//        mTWDatabase = SQLiteDatabase.openDatabase(DB_TW_PATH, null, SQLiteDatabase.OPEN_READONLY);
+        //        mTWDatabase = SQLiteDatabase.openDatabase(DB_TW_PATH, null, SQLiteDatabase.OPEN_READONLY);
     }
 
     private static Cursor queryChina(String tableName, String selectColumnName, String selection, String selectionArg)

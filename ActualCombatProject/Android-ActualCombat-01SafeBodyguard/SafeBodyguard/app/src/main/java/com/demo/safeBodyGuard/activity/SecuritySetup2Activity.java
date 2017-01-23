@@ -11,7 +11,7 @@ import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.utils.SPUtil;
 import com.demo.safeBodyGuard.utils.ToastManager;
-import com.demo.safeBodyGuard.view.SettingItemView;
+import com.demo.safeBodyGuard.view.SettingItemCheckBoxView;
 
 import org.xutils.view.annotation.ViewInject;
 
@@ -19,7 +19,7 @@ public class SecuritySetup2Activity extends BaseSecuritySetupActivity implements
 {
 
     @ViewInject(R.id.siv_sim_card)
-    SettingItemView settingItemView;
+    SettingItemCheckBoxView settingItemView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
