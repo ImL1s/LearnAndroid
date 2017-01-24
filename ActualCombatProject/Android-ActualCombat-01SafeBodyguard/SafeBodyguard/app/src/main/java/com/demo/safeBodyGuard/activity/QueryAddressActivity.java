@@ -17,6 +17,7 @@ import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.dao.AddressDAO;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.utils.LogUtil;
+import com.demo.safeBodyGuard.utils.StringUtil;
 
 import java.io.File;
 
@@ -64,7 +65,7 @@ public class QueryAddressActivity extends BaseActivity implements View.OnClickLi
     {
         String inputTxt = et_query.getText().toString();
 
-        if (inputTxt.equals(inputTxt))
+        if (StringUtil.isNullOrEmpty(inputTxt))
         {
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.shake);
             et_query.startAnimation(animation);

@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.dao.AddressDAO;
+import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.utils.LogUtil;
+import com.demo.safeBodyGuard.utils.SPUtil;
 import com.demo.safeBodyGuard.utils.ThreadUtil;
 
 /**
@@ -115,9 +117,11 @@ public class PhoneAddressService extends Service
             //指定吐司的所在位置(将吐司指定在右上角)
             params.gravity = Gravity.RIGHT + Gravity.TOP;
 
+            int bgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX, 0);
             vg_toast_phone_listen_view = (ViewGroup) View.inflate(getApplicationContext(), R.layout.toast_phone_listen_view, null);
             textView = (TextView) vg_toast_phone_listen_view.findViewById(R.id.toast_phone_view_tv_title);
             textView.setText("查詢中...");
+            textView.setBackgroundResource(Config.DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[bgIndex]);
 
             mWindowManager.addView(vg_toast_phone_listen_view, params);
 

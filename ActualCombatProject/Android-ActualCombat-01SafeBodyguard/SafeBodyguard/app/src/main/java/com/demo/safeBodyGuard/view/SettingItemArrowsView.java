@@ -16,10 +16,8 @@ public class SettingItemArrowsView extends AbsSettingItemView
     private View v_arrows;
 
     @Override
-    protected void onClick()
-    {
+    protected void onClick(){}
 
-    }
 
     public SettingItemArrowsView(Context context)
     {
@@ -35,7 +33,7 @@ public class SettingItemArrowsView extends AbsSettingItemView
     {
         super(context, attrs, defStyleAttr);
 
-        View.inflate(context, R.layout.setting_item_view, this);
+        View.inflate(context, R.layout.setting_item_arrows_view, this);
         tv_title = (TextView) findViewById(R.id.tv_setting_item_title);
         tv_desc = (TextView) findViewById(R.id.tv_setting_item_desc);
         v_arrows = findViewById(R.id.v_setting_item_arrows);

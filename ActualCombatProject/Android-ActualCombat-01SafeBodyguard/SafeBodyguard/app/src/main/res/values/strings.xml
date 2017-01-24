@@ -17,4 +17,6 @@
     <string name="dialog_no">取消</string>
     <string name="btn_next">下一步</string>
     <string name="btn_pre">上一步</string>
+    <string name="activity_setting_phone_address_service_open">已開啟</string>
+    <string name="activity_setting_phone_address_service_off">已關閉</string>
 </resources>

@@ -1,8 +1,8 @@
 package com.demo.safeBodyGuard.define;
 
-import android.net.Uri;
-
 import com.demo.safeBodyGuard.R;
+
+import java.util.HashMap;
 
 /**
  * Created by iml1s-macpro on 2016/12/30.
@@ -34,17 +34,21 @@ public class Config
 
     public static final String SP_KEY_TEST = "sp_key_test";
 
-    public static final String SP_KEY_STRING_PWD = "sp_key_pwd";
-
     public static final String SP_KEY_BOOL_UPDATE = "sp_key_update";
 
     public static final String SP_KEY_BOOL_SAFE_SETUP = "sp_key_safe_setup_bool";
 
     public static final String SP_KEY_BOOL_OPEN_SAFE_GUARD = "sp_key_bool_open_safe_guard";
 
+    public static final String SP_KEY_STRING_PWD = "sp_key_pwd";
+
     public static final String SP_KEY_STRING_SIM_SERIAL_NUM = "sp_key_sim_serial_num";
 
-    public static final String SP_KEY_STRING_ALARM_PHONE_NUMBER = "sp_key_string_alarm_phone_number";
+    public static final String SP_KEY_STRING_ALARM_PHONE_NUMBER =
+            "sp_key_string_alarm_phone_number";
+
+    public static final String SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX =
+            "SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX";
     //endregion
 
 
@@ -87,15 +91,32 @@ public class Config
     //endregion
 
     //region drawable
-    public static final String[] DRAWABLE_DISPLAY_NAME_ARRAY_QUERY_ADDRESS_VIEW_BACKGROUND = new String[]{"藍色",
-                                                                                                          "綠色",
-                                                                                                          "白色"
+    public static final String[] DRAWABLE_DISPLAY_NAME_ARRAY_QUERY_ADDRESS_VIEW_BACKGROUND =
+            new String[]{"藍色", "綠色", "白色"
 
-    };
+            };
 
-    public static final int[] DRAWABLE_ID_ARRAY_QUERY_ADDRESS_VIEW_BACKGROUND = new int[]{R.drawable.call_locate_blue,
-                                                                                          R.drawable.call_locate_green,
-                                                                                          R.drawable.call_locate_white};
+    public static final int[] DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG =
+            new int[]{R.drawable.call_locate_blue, R.drawable.call_locate_green,
+                      R.drawable.call_locate_white};
+
+    public static final String[] DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG =
+            new String[]{"藍色", "綠色", "白色"};
+
+    public static final HashMap<String, Integer> DRAWABLE_MAP_NAME_BG_PHONE_QUERY_ADDRESS_VIEW;
     //endregion
+
+
+    static
+    {
+        DRAWABLE_MAP_NAME_BG_PHONE_QUERY_ADDRESS_VIEW = new HashMap<>();
+
+        for (int i = 0; i < DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG.length; i++)
+        {
+            DRAWABLE_MAP_NAME_BG_PHONE_QUERY_ADDRESS_VIEW
+                    .put(DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG[i],
+                         DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[i]);
+        }
+    }
 
 }

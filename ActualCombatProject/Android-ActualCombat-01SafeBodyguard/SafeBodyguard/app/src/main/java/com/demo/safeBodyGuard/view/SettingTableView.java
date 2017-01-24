@@ -111,7 +111,8 @@ public class SettingTableView extends ScrollView implements View.OnClickListener
             // 是否有單獨為某一個Item設定點擊事件
             if (itemInfo.getOnClickListener() != null)
                 stiView.setOnClickListener(itemInfo.getOnClickListener());
-            else stiView.setOnClickListener(this);
+            else
+                stiView.setOnClickListener(this);
         }
 
         this.addView(linearLayout);
@@ -120,9 +121,9 @@ public class SettingTableView extends ScrollView implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        SettingItemCheckBoxView stiView = (SettingItemCheckBoxView) v;
+        AbsSettingItemView itemView = (AbsSettingItemView) v;
 
         if (onItemClickListener != null)
-            onItemClickListener.onItemClick(null, stiView, stiView.getPosition(), -1);
+            onItemClickListener.onItemClick(null, itemView, itemView.getPosition(), -1);
     }
 }

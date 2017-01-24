@@ -81,8 +81,6 @@ public class SplashActivity extends BaseActivity
 
         if (dbFile.exists()) return;
 
-
-
         InputStream is = null;
         OutputStream os = null;
 

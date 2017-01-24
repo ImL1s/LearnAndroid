@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#accc">
+
+    <TextView
+        android:id="@+id/activity_phone_addr_pos_setting_tv_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drag"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:shadowColor="@android:color/white"
+        android:shadowRadius="50"
+        android:text="雙擊置中"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="40dp"
+        />
+
+    <Button
+        android:id="@+id/activity_phone_addr_pos_setting_btn_up"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/function_greenbutton_normal"
+        android:text="按住提示框拖拽到任意位置"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/activity_phone_addr_pos_setting_btn_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/function_greenbutton_normal"
+        android:text="按住提示框拖拽到任意位置"
+        android:textColor="@android:color/white"/>
+
+
+</RelativeLayout>

@@ -37,10 +37,10 @@
         <activity android:name=".activity.SecuritySetup1Activity"/>
         <activity android:name=".activity.SecuritySetup2Activity"/>
         <activity android:name=".activity.SecuritySetup3Activity"/>
-        <activity android:name=".activity.ContactListActivity">
-        </activity>
-        <activity android:name=".activity.SecuritySetup4Activity">
-        </activity>
+        <activity android:name=".activity.ContactListActivity"/>
+        <activity android:name=".activity.SecuritySetup4Activity"/>
+        <activity android:name=".activity.PhoneAddressPosSettingActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
