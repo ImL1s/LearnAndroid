@@ -117,7 +117,7 @@ public class PhoneAddressService extends Service
             //指定吐司的所在位置(将吐司指定在右上角)
             params.gravity = Gravity.RIGHT + Gravity.TOP;
 
-            int bgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX, 0);
+            int bgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0);
             vg_toast_phone_listen_view = (ViewGroup) View.inflate(getApplicationContext(), R.layout.toast_phone_listen_view, null);
             textView = (TextView) vg_toast_phone_listen_view.findViewById(R.id.toast_phone_view_tv_title);
             textView.setText("查詢中...");

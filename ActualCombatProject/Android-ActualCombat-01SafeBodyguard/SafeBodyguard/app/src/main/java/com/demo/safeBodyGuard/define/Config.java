@@ -22,7 +22,6 @@ public class Config
     public static final int ACTIVITY_RESULT_CODE_NOTHING          = 0x1;
     public static final int ACTIVITY_RESULT_CODE_CONTACT_SELECTED = 0x2;
 
-
     //endregion
 
 
@@ -47,8 +46,12 @@ public class Config
     public static final String SP_KEY_STRING_ALARM_PHONE_NUMBER =
             "sp_key_string_alarm_phone_number";
 
-    public static final String SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX =
-            "SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX";
+    public static final String SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX =
+            "SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX";
+
+    public static final String SP_KEY_INT_FLOW_VIEW_LOCATION_X = "sp_key_int_flow_view_location_x";
+
+    public static final String SP_KEY_INT_FLOW_VIEW_LOCATION_Y = "sp_key_int_flow_view_location_y";
     //endregion
 
 

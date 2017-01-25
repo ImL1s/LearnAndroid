@@ -2,13 +2,16 @@ package com.demo.safeBodyGuard.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
-import com.demo.safeBodyGuard.utils.LogUtil;
+import com.demo.safeBodyGuard.define.Config;
+import com.demo.safeBodyGuard.model.Vector2;
+import com.demo.safeBodyGuard.utils.SPUtil;
+import com.demo.safeBodyGuard.Listener.*;
 
 /**
  * Created by ImL1s on 2017/1/24.
@@ -18,9 +21,13 @@ import com.demo.safeBodyGuard.utils.LogUtil;
 
 public class PhoneAddressPosSettingActivity extends Activity
 {
-    private TextView floatView;
-    private float    mX;
-    private float    mY;
+    private TextView mFloatView;
+
+    private int originalHeight;
+    private int originalWidth;
+
+    private OnPhoneAddressPosSettingTouchListener mOnSettingTouchListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,43 +35,47 @@ public class PhoneAddressPosSettingActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_addr_pos_setting);
 
-        floatView = (TextView) findViewById(R.id.activity_phone_addr_pos_setting_tv_float);
+        init();
+        initData();
+        loadSavePosition();
+        mFloatView.setOnTouchListener(mOnSettingTouchListener);
+    }
 
-        floatView.setOnTouchListener((v, event) -> {
-                                         switch (event.getAction())
-                                         {
-                                             case MotionEvent.ACTION_DOWN:
-                                                 mX = event.getRawX();
-                                                 mY = event.getRawY();
-                                                 //                                                 LogUtil.log("rawX:" + mX + "/ rawY:" + mY);
-                                                 //                                                 LogUtil.log("x:" + event.getX() + "/ y:" + event.getY());
-                                                 break;
+    private void init()
+    {
+        mFloatView = (TextView) findViewById(R.id.activity_phone_addr_pos_setting_tv_float);
+        originalHeight = mFloatView.getHeight();
+        originalWidth = mFloatView.getWidth();
 
-                                             case MotionEvent.ACTION_MOVE:
-                                                 float currentX = event.getRawX();
-                                                 float currentY = event.getRawY();
+        WindowManager mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Button mUpBtn = (Button) findViewById(R.id.activity_phone_addr_pos_setting_btn_up);
+        Button mDownBtn = (Button) findViewById(R.id.activity_phone_addr_pos_setting_btn_down);
 
-                                                 float diffX = currentX - mX;
-                                                 float diffY = currentY - mY;
+        mOnSettingTouchListener =
+                new OnPhoneAddressPosSettingTouchListener(getApplicationContext(), mFloatView,
+                                                          mUpBtn, mDownBtn, mWindowManager,
+                                                          originalHeight, originalWidth);
+    }
 
-                                                 int left = (int) currentX;
-                                                 int top = (int) currentY;
+    private void initData()
+    {
+        originalHeight = mFloatView.getHeight();
+        originalWidth = mFloatView.getWidth();
+    }
 
-                                                 floatView.layout(left, top , left + floatView.getWidth(),
-                                                                  top + floatView.getHeight());
+    private void loadSavePosition()
+    {
+        int x = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, 0);
+        int y = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, 0);
+        mFloatView.layout(x, y, x + originalWidth, y + originalHeight);
 
-                                                 mX = currentX;
-                                                 mY = currentY;
-                                                 break;
+        RelativeLayout.LayoutParams layoutParams =
+                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.leftMargin = x;
+        layoutParams.topMargin = y;
 
-                                             case MotionEvent.ACTION_UP:
-
-                                                 break;
-                                         }
-
-                                         return true;
-                                     }
-
-                                    );
+        mFloatView.setLayoutParams(layoutParams);
+        mOnSettingTouchListener.showBtn(new Vector2(x, y));
     }
 }

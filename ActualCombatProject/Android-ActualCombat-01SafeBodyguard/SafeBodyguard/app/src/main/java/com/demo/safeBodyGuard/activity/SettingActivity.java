@@ -3,7 +3,6 @@ package com.demo.safeBodyGuard.activity;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -80,7 +79,7 @@ public class SettingActivity extends BaseActivity
     private void refreshUI()
     {
         boolean isPhoneAddressServiceRunning = ServiceUtil.isRunnung(PhoneAddressService.class.getCanonicalName(), getApplicationContext());
-        int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX, 0);
+        int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0);
 
         getSettingItemCheckBoxView(0).setCheckedAndText(SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, false));
         getSettingItemCheckBoxView(1).setCheckedAndText(devicePolicyManager.isAdminActive(cName));
@@ -100,7 +99,7 @@ public class SettingActivity extends BaseActivity
             public SettingItemInfo[] getItemInfoArray()
             {
                 ArrayList<SettingItemInfo> list = new ArrayList<>();
-                int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX, 0);
+                int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0);
 
                 list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟", "自動更新已關閉"));
                 list.add(new SettingItemInfo("啟動設備管理員權限", "設備管理員權限已開啟", "設備管理員權限已關閉"));
@@ -183,9 +182,9 @@ public class SettingActivity extends BaseActivity
 
         builder.setSingleChoiceItems(
                 Config.DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG,
-                SPUtil.getInt(this, Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX, 0),
+                SPUtil.getInt(this, Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0),
                 (dialog, which) -> {
-                    SPUtil.setInt(this,Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUNG_INDEX,which);
+                    SPUtil.setInt(this, Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, which);
                     dialog.dismiss();
         });
 
