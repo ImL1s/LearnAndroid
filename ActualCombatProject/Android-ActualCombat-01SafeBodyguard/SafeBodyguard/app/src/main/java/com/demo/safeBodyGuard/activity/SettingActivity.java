@@ -198,7 +198,7 @@ public class SettingActivity extends BaseActivity
     }
 
     /**
-     * 設定來電查詢的漂浮視窗
+     * 設定來電查詢的漂浮視窗是否顯示
      *
      * @param view 被點擊的ItemView
      */

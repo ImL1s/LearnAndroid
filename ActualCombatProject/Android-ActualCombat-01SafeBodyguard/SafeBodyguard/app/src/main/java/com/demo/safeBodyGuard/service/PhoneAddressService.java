@@ -62,7 +62,8 @@ public class PhoneAddressService extends Service
     @Override
     public void onCreate()
     {
-        mTelephonyManager = (TelephonyManager) getApplication().getSystemService(Context.TELEPHONY_SERVICE);
+        mTelephonyManager =
+                (TelephonyManager) getApplication().getSystemService(Context.TELEPHONY_SERVICE);
         mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         mListener = new QueryPhoneStateListener();
         mTelephonyManager.listen(mListener, PhoneStateListener.LISTEN_CALL_STATE);
@@ -117,11 +118,37 @@ public class PhoneAddressService extends Service
             //指定吐司的所在位置(将吐司指定在右上角)
             params.gravity = Gravity.RIGHT + Gravity.TOP;
 
-            int bgIndex = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0);
-            vg_toast_phone_listen_view = (ViewGroup) View.inflate(getApplicationContext(), R.layout.toast_phone_listen_view, null);
-            textView = (TextView) vg_toast_phone_listen_view.findViewById(R.id.toast_phone_view_tv_title);
+            int bgIndex = SPUtil.getInt(getApplicationContext(),
+                                        Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX, 0);
+
+            vg_toast_phone_listen_view = (ViewGroup) View
+                    .inflate(getApplicationContext(), R.layout.toast_phone_listen_view, null);
+
+            textView = (TextView) vg_toast_phone_listen_view
+                    .findViewById(R.id.toast_phone_view_tv_title);
+
             textView.setText("查詢中...");
-            textView.setBackgroundResource(Config.DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[bgIndex]);
+
+            textView.setBackgroundResource(
+                    Config.DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[bgIndex]);
+
+            vg_toast_phone_listen_view.setOnClickListener(new View.OnClickListener()
+            {
+                private double[] mClickFlow = new double[2];
+
+                @Override
+                public void onClick(View v)
+                {
+                    System.arraycopy(mClickFlow, 1, mClickFlow, 0, mClickFlow.length);
+
+                    if (mClickFlow[mClickFlow.length -1] != 0 && mClickFlow[mClickFlow.length - 1] - mClickFlow[0] < 500)
+                    {
+                        LogUtil.log("Double Click");
+                    }
+
+                    mClickFlow[mClickFlow.length - 1] = System.currentTimeMillis();
+                }
+            });
 
             mWindowManager.addView(vg_toast_phone_listen_view, params);
 

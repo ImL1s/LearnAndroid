@@ -49,8 +49,14 @@ public class Config
     public static final String SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX =
             "SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX";
 
+    /**
+     * 來電漂浮查詢視窗的X位置
+     */
     public static final String SP_KEY_INT_FLOW_VIEW_LOCATION_X = "sp_key_int_flow_view_location_x";
 
+    /**
+     * 來電漂浮查詢視窗的Y位置
+     */
     public static final String SP_KEY_INT_FLOW_VIEW_LOCATION_Y = "sp_key_int_flow_view_location_y";
     //endregion
 
