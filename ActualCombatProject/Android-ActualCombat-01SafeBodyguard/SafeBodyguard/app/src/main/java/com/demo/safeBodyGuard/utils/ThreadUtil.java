@@ -23,7 +23,7 @@ public class ThreadUtil
 
             long stopTime = System.currentTimeMillis();
             long interval = stopTime - startTime;
-            if(interval < minTime)
+            if(interval < minTime * 1000)
             {
                 try
                 {
