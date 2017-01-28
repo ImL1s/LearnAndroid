@@ -17,6 +17,7 @@ import com.demo.safeBodyGuard.utils.LogUtil;
 import com.demo.safeBodyGuard.utils.PackageUtil;
 import com.demo.safeBodyGuard.utils.SPUtil;
 import com.demo.safeBodyGuard.utils.ThreadUtil;
+import com.demo.safeBodyGuard.utils.ToastManager;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -37,8 +38,7 @@ import java.io.OutputStream;
 @ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity
 {
-    @ViewInject(R.id.tv_version_name)
-    private TextView tv_version_name;
+    @ViewInject(R.id.tv_version_name) private TextView tv_version_name;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -67,10 +67,14 @@ public class SplashActivity extends BaseActivity
 
     private void initData()
     {
-        VersionBean.getCurrentVersion().setCode(PackageUtil.getVersionCode(getPackageManager(), getPackageName()));
-        VersionBean.getCurrentVersion().setName(PackageUtil.getVersionName(getPackageManager(), getPackageName()));
+        VersionBean.getCurrentVersion()
+                .setCode(PackageUtil.getVersionCode(getPackageManager(), getPackageName()));
+        VersionBean.getCurrentVersion()
+                .setName(PackageUtil.getVersionName(getPackageManager(), getPackageName()));
 
-        tv_version_name.setText(String.format("%s%s", getResources().getString(R.string.tv_update_version), VersionBean.getCurrentVersion().getName()));
+        tv_version_name.setText(
+                String.format("%s%s", getResources().getString(R.string.tv_update_version),
+                              VersionBean.getCurrentVersion().getName()));
     }
 
     private void initDatabase()
@@ -79,7 +83,8 @@ public class SplashActivity extends BaseActivity
         File dbFile = new File(dbDir, Config.DB_FILE_NAME_ADDRESS);
         AddressDAO.setDBPath(dbFile.getAbsolutePath());
 
-        if (dbFile.exists()) return;
+        if (dbFile.exists())
+            return;
 
         InputStream is = null;
         OutputStream os = null;
@@ -105,8 +110,10 @@ public class SplashActivity extends BaseActivity
         {
             try
             {
-                if (is != null) is.close();
-                if (os != null) os.close();
+                if (is != null)
+                    is.close();
+                if (os != null)
+                    os.close();
             }
             catch (IOException e)
             {
@@ -117,7 +124,8 @@ public class SplashActivity extends BaseActivity
 
     private void checkUpdate()
     {
-        boolean needUpdateVersion = SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, true);
+        boolean needUpdateVersion =
+                SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, true);
 
         if (needUpdateVersion)
         {
@@ -131,8 +139,9 @@ public class SplashActivity extends BaseActivity
 
     private void checkVersion()
     {
-        ThreadUtil.scheduleTaskInMinTime(() -> {
-            RequestParams params = new RequestParams(getResources().getString(R.string.apk_check_version_url));
+        new Thread(() -> {
+            RequestParams params =
+                    new RequestParams(getResources().getString(R.string.apk_check_version_url));
             x.http().get(params, new Callback.CommonCallback<String>()
             {
                 @Override
@@ -142,18 +151,41 @@ public class SplashActivity extends BaseActivity
                     //                    "{mCode:  2,mName:'1.0.0',mDownloadURL:'" + getResources().getString(R.string.apk_download_url) + "'}"
                     VersionBean bean = JsonUtil.getObject(result, new VersionBean());
                     VersionBean.setServerVersion(bean);
+
+                    Message msg = Message.obtain();
+                    msg.setTarget(handler);
+
+                    VersionBean serverVersion = VersionBean.getServerVersion();
+                    VersionBean currentVersion = VersionBean.getCurrentVersion();
+
+                    if (serverVersion.getCode() > currentVersion.getCode())
+                    {
+                        msg.what = HandlerProtocol.UPDATE_VERSION;
+                        msg.obj = serverVersion;
+                        msg.sendToTarget();
+                    }
+                    else
+                    {
+                        msg.what = HandlerProtocol.ENTER_HOME;
+                        msg.sendToTarget();
+                    }
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback)
                 {
-                    LogUtil.log("onError");
+                    LogUtil.log("onError " + ex.toString());
+
+                    ToastManager.getInstance().showToast("網路不穩,跳過更新");
+                    startActivityHome();
                 }
 
                 @Override
                 public void onCancelled(CancelledException cex)
                 {
-                    LogUtil.log("onError");
+                    LogUtil.log("onCancelled " + cex.toString());
+                    ToastManager.getInstance().showToast("網路不穩,跳過更新");
+                    startActivityHome();
                 }
 
                 @Override
@@ -161,28 +193,70 @@ public class SplashActivity extends BaseActivity
                 {
                     LogUtil.log("onFinished");
                 }
+
+                protected void startActivityHome()
+                {
+                    Message msg = Message.obtain();
+                    msg.setTarget(handler);
+                    msg.what = HandlerProtocol.ENTER_HOME;
+                    msg.sendToTarget();
+                }
             });
+        }).start();
 
-        }, () -> {
-            Message msg = Message.obtain();
-            msg.setTarget(handler);
-
-            VersionBean serverVersion = VersionBean.getServerVersion();
-            VersionBean currentVersion = VersionBean.getCurrentVersion();
-
-            if (serverVersion.getCode() > currentVersion.getCode())
-            {
-                msg.what = HandlerProtocol.UPDATE_VERSION;
-                msg.obj = serverVersion;
-                msg.sendToTarget();
-            }
-            else
-            {
-                msg.what = HandlerProtocol.ENTER_HOME;
-                msg.sendToTarget();
-            }
-
-        }, Config.SPLASH_MIN_INTERVAL_MS);
+        //        ThreadUtil.scheduleTaskInMinTime(() -> {
+        //            RequestParams params =
+        //                    new RequestParams(getResources().getString(R.string.apk_check_version_url));
+        //            x.http().get(params, new Callback.CommonCallback<String>()
+        //            {
+        //                @Override
+        //                public void onSuccess(String result)
+        //                {
+        //                    LogUtil.log(result);
+        //                    //                    "{mCode:  2,mName:'1.0.0',mDownloadURL:'" + getResources().getString(R.string.apk_download_url) + "'}"
+        //                    VersionBean bean = JsonUtil.getObject(result, new VersionBean());
+        //                    VersionBean.setServerVersion(bean);
+        //                }
+        //
+        //                @Override
+        //                public void onError(Throwable ex, boolean isOnCallback)
+        //                {
+        //                    LogUtil.log("onError " + ex.toString());
+        //                }
+        //
+        //                @Override
+        //                public void onCancelled(CancelledException cex)
+        //                {
+        //                    LogUtil.log("onCancelled " + cex.toString());
+        //                }
+        //
+        //                @Override
+        //                public void onFinished()
+        //                {
+        //                    LogUtil.log("onFinished");
+        //                }
+        //            });
+        //
+        //        }, () -> {
+        //            Message msg = Message.obtain();
+        //            msg.setTarget(handler);
+        //
+        //            VersionBean serverVersion = VersionBean.getServerVersion();
+        //            VersionBean currentVersion = VersionBean.getCurrentVersion();
+        //
+        //            if (serverVersion.getCode() > currentVersion.getCode())
+        //            {
+        //                msg.what = HandlerProtocol.UPDATE_VERSION;
+        //                msg.obj = serverVersion;
+        //                msg.sendToTarget();
+        //            }
+        //            else
+        //            {
+        //                msg.what = HandlerProtocol.ENTER_HOME;
+        //                msg.sendToTarget();
+        //            }
+        //
+        //        }, Config.SPLASH_MIN_INTERVAL_MS);
 
     }
 
