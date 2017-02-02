@@ -5,10 +5,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.demo.safeBodyGuard.define.Config;
-import com.demo.safeBodyGuard.model.Vector2;
-import com.demo.safeBodyGuard.utils.LogUtil;
-import com.demo.safeBodyGuard.utils.SPUtil;
 
 
 /**
@@ -76,9 +72,7 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
      */
     private void savePosition()
     {
-        LogUtil.log("SavePos: X" + mFloatView.getLeft() + " Y:" + mFloatView.getTop());
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, mLayoutParams.x);
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, mLayoutParams.y);
+
     }
 
 
@@ -141,10 +135,23 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
                           mWindowManager.getDefaultDisplay().getHeight() - mFloatView.getHeight() -
                           48 : mLayoutParams.y;
 
-        LogUtil.log("X:" + mLayoutParams.x + " Y:" + mLayoutParams.y);
         mWindowManager.updateViewLayout(mFloatView, mLayoutParams);
 
         mX = event.getRawX();
         mY = event.getRawY();
+    }
+
+    class Vector2
+    {
+        public float x;
+        public float y;
+
+        public Vector2(){}
+
+        public Vector2(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
