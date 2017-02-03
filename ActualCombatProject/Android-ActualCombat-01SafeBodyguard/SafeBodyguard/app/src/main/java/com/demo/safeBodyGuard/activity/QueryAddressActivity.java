@@ -2,7 +2,6 @@ package com.demo.safeBodyGuard.activity;
 
 import android.app.Service;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,12 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.demo.safeBodyGuard.R;
-import com.demo.safeBodyGuard.dao.AddressDAO;
+import com.demo.safeBodyGuard.db.dao.AddressDAO;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.utils.LogUtil;
 import com.demo.safeBodyGuard.utils.StringUtil;
-
-import java.io.File;
 
 public class QueryAddressActivity extends BaseActivity implements View.OnClickListener, TextWatcher
 {

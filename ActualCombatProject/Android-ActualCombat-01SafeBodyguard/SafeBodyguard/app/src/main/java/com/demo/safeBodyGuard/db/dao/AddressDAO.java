@@ -1,4 +1,4 @@
-package com.demo.safeBodyGuard.dao;
+package com.demo.safeBodyGuard.db.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

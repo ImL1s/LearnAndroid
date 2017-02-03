@@ -39,6 +39,20 @@ public class PhoneAddressPosSettingActivity extends Activity
         initData();
         loadSavePosition();
         mFloatView.setOnTouchListener(mOnSettingTouchListener);
+        mFloatView.setOnClickListener(new DoubleClickListener(v -> {
+
+            WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+            int screenWidth = windowManager.getDefaultDisplay().getWidth();
+            int screenHeight = windowManager.getDefaultDisplay().getHeight();
+
+            v.layout(screenWidth / 2 - v.getWidth() / 2, screenHeight / 2 - v.getHeight() / 2,
+                     (int) (screenWidth * 0.5) + (int) (v.getWidth() * 0.5),
+                     (int) (screenHeight * 0.5) + (int) (v.getHeight() * 0.5));
+            SPUtil.setInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X,
+                          v.getLeft());
+            SPUtil.setInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y,
+                          v.getTop());
+        }));
     }
 
     private void init()
@@ -67,7 +81,7 @@ public class PhoneAddressPosSettingActivity extends Activity
     {
         int x = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, 0);
         int y = SPUtil.getInt(getApplicationContext(), Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, 0);
-        mFloatView.layout(x, y, x + originalWidth, y + originalHeight);
+//        mFloatView.layout(x, y, x + originalWidth, y + originalHeight);
 
         RelativeLayout.LayoutParams layoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,

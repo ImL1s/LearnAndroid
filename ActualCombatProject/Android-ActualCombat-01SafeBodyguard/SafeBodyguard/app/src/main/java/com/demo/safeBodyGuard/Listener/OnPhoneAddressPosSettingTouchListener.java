@@ -16,7 +16,7 @@ import com.demo.safeBodyGuard.utils.SPUtil;
 
 /**
  * Created by ImL1s on 2017/1/25.
- * <p>
+ *
  * DESC:
  */
 
@@ -84,7 +84,7 @@ public class OnPhoneAddressPosSettingTouchListener implements View.OnTouchListen
                 break;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -92,8 +92,8 @@ public class OnPhoneAddressPosSettingTouchListener implements View.OnTouchListen
      */
     private void savePosition()
     {
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, (int) mX);
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, (int) mY);
+        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, mFloatView.getLeft());
+        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, mFloatView.getTop());
     }
 
     /**

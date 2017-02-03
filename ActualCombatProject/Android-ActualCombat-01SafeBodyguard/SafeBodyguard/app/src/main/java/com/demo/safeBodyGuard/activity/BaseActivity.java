@@ -30,7 +30,8 @@ public abstract class BaseActivity extends Activity
         x.view().inject(this);
         handler = initHandler();
         checkPermission();
-        if (needInitUI) initUI();
+        if (needInitUI)
+            initUI();
     }
 
     public IActivityHandler getHandler()
@@ -41,7 +42,8 @@ public abstract class BaseActivity extends Activity
     public abstract IActivityHandler initHandler();
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
     {
         MPermissionUtil.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -55,31 +57,32 @@ public abstract class BaseActivity extends Activity
     {
         if (Build.VERSION.SDK_INT >= 23)
         {
-            MPermissionUtil.requestPermissionsResult(this, Config.PERMISSION_ALL_REQUEST_CODE, new String[]{Manifest.permission.INTERNET,
-                                                                                                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                                                                                            Manifest.permission.READ_PHONE_STATE,
-                                                                                                            Manifest.permission.READ_CONTACTS,
-                                                                                                            Manifest.permission.READ_SMS,
-                                                                                                            Manifest.permission.SEND_SMS,
-                                                                                                            Manifest.permission.RECEIVE_SMS,
-                                                                                                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                                                                                                            Manifest.permission.ACCESS_FINE_LOCATION,
-                                                                                                            Manifest.permission.READ_PHONE_STATE
-            },
+            MPermissionUtil.requestPermissionsResult(this, Config.PERMISSION_ALL_REQUEST_CODE,
+                                                     new String[]{Manifest.permission.INTERNET,
+                                                                  Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                                  Manifest.permission.READ_PHONE_STATE,
+                                                                  Manifest.permission.READ_CONTACTS,
+                                                                  Manifest.permission.READ_SMS,
+                                                                  Manifest.permission.SEND_SMS,
+                                                                  Manifest.permission.RECEIVE_SMS,
+                                                                  Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                                  Manifest.permission.ACCESS_FINE_LOCATION,
+                                                                  Manifest.permission.READ_PHONE_STATE,
+                                                                  Manifest.permission.PROCESS_OUTGOING_CALLS},
                                                      new MPermissionUtil.OnPermissionListener()
-            {
-                @Override
-                public void onPermissionGranted()
-                {
+                                                     {
+                                                         @Override
+                                                         public void onPermissionGranted()
+                                                         {
 
-                }
+                                                         }
 
-                @Override
-                public void onPermissionDenied()
-                {
-//                    MPermissionUtil.showTipsDialog(BaseActivity.this);
-                }
-            });
+                                                         @Override
+                                                         public void onPermissionDenied()
+                                                         {
+                                                             //                    MPermissionUtil.showTipsDialog(BaseActivity.this);
+                                                         }
+                                                     });
         }
     }
 

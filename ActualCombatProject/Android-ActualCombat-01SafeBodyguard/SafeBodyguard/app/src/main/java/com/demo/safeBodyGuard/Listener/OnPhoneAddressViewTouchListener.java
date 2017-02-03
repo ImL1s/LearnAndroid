@@ -1,12 +1,9 @@
 package com.demo.safeBodyGuard.Listener;
 
 import android.content.Context;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.model.Vector2;
@@ -27,27 +24,23 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
      */
     private static int titleBarPixels = 48;
 
-    private float         mX;
-    private float         mY;
-    private TextView      mFloatView;
-    private Button        mUpBtn;
-    private Button        mDownBtn;
-    private WindowManager mWindowManager;
-    private Context       mContext;
-    private int           originalHeight;
-    private int           originalWidth;
+    private       float                      mX;
+    private       float                      mY;
+    private       View                       mFloatView;
+    private       WindowManager              mWindowManager;
+    private       Context                    mContext;
+    private       int                        originalHeight;
+    private       int                        originalWidth;
+    private final WindowManager.LayoutParams mLayoutParams;
 
-    public OnPhoneAddressViewTouchListener(Context context, TextView floatView, Button upBtn,
-                                           Button downBtn, WindowManager windowsManager,
-                                           int originalHeight, int originalWidth)
+    public OnPhoneAddressViewTouchListener(Context context, View floatView,
+                                           WindowManager windowsManager,
+                                           WindowManager.LayoutParams layoutParams)
     {
         this.mContext = context;
         this.mFloatView = floatView;
-        this.mUpBtn = upBtn;
-        this.mDownBtn = downBtn;
         this.mWindowManager = windowsManager;
-        this.originalHeight = originalHeight;
-        this.originalWidth = originalWidth;
+        this.mLayoutParams = layoutParams;
     }
 
 
@@ -65,17 +58,8 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
 
             case MotionEvent.ACTION_MOVE:
 
-                int screenWidth = mWindowManager.getDefaultDisplay().getWidth();
-                int screenHeight = mWindowManager.getDefaultDisplay().getHeight();
-                Vector2 screenWH = new Vector2(screenWidth, screenHeight);
-
-                Vector2 nextPos = getNextPos(event);
-
-                if (!checkCanMove(nextPos, screenWH))
-                    return true;
-
-                moveView(nextPos, event);
-                showBtn(nextPos, screenWH);
+                Vector2 slideXYScale = getSlideScale(event);
+                moveView(slideXYScale, event);
 
                 break;
 
@@ -84,7 +68,7 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
                 break;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -92,43 +76,19 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
      */
     private void savePosition()
     {
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, mFloatView.getLeft());
-        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, mFloatView.getTop());
+        LogUtil.log("SavePos: X" + mFloatView.getLeft() + " Y:" + mFloatView.getTop());
+        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_X, mLayoutParams.x);
+        SPUtil.setInt(mContext, Config.SP_KEY_INT_FLOW_VIEW_LOCATION_Y, mLayoutParams.y);
     }
 
-    /**
-     * 根據當前View的位置,顯示上下按鈕
-     *
-     * @param viewPos
-     */
-    public void showBtn(Vector2 viewPos)
-    {
-        Display display = mWindowManager.getDefaultDisplay();
-        Vector2 screenWH = new Vector2(display.getWidth(), display.getHeight());
-
-        showBtn(viewPos, screenWH);
-    }
 
     /**
-     * 根據當前View的位置,顯示上下按鈕
-     *
-     * @param viewPos
-     * @param screenWH
-     */
-    private void showBtn(Vector2 viewPos, Vector2 screenWH)
-    {
-        boolean showUpBtn = viewPos.y > screenWH.y * 0.5;
-        mUpBtn.setVisibility(showUpBtn ? View.VISIBLE : View.INVISIBLE);
-        mDownBtn.setVisibility(showUpBtn ? View.INVISIBLE : View.VISIBLE);
-    }
-
-    /**
-     * 取得當前手指滑動到的位置(Layout)
+     * 取得當前手指滑動XY量(Layout)
      *
      * @param event
      * @return
      */
-    private Vector2 getNextPos(MotionEvent event)
+    private Vector2 getSlideScale(MotionEvent event)
     {
         float currentX = event.getRawX();
         float currentY = event.getRawY();
@@ -136,8 +96,8 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
         float diffX = currentX - mX;
         float diffY = currentY - mY;
 
-        int left = (int) diffX + mFloatView.getLeft();
-        int top = (int) diffY + mFloatView.getTop();
+        int left = (int) diffX /*+ mFloatView.getLeft()*/;
+        int top = (int) diffY /*+ mFloatView.getTop()*/;
 
         return new Vector2(left, top);
     }
@@ -159,41 +119,32 @@ public class OnPhoneAddressViewTouchListener implements View.OnTouchListener
     /**
      * 移動View到指定的位置
      *
-     * @param layoutPos layout中的 left,top
-     * @param event     MotionEvent
+     * @param slideXYScale layout中的 left,top
+     * @param event        MotionEvent
      */
-    private void moveView(Vector2 layoutPos, MotionEvent event)
+    private void moveView(Vector2 slideXYScale, MotionEvent event)
     {
-        int left = layoutPos.x;
-        int top = layoutPos.y;
+        mLayoutParams.x += slideXYScale.x;
+        mLayoutParams.y += slideXYScale.y;
 
-        mFloatView.layout(left, top, left + mFloatView.getWidth(), top + mFloatView.getHeight());
+        mLayoutParams.x = mLayoutParams.x <= 0 ? 0 : mLayoutParams.x;
+        mLayoutParams.y = mLayoutParams.y <= 0 ? 0 : mLayoutParams.y;
+
+        // 防止越界
+        mLayoutParams.x = mLayoutParams.x >=
+                          mWindowManager.getDefaultDisplay().getWidth() - mFloatView.getWidth() ?
+                          mWindowManager.getDefaultDisplay().getWidth() - mFloatView.getWidth() :
+                          mLayoutParams.x;
+        mLayoutParams.y = mLayoutParams.y >=
+                          mWindowManager.getDefaultDisplay().getHeight() - mFloatView.getHeight() -
+                          48 ?
+                          mWindowManager.getDefaultDisplay().getHeight() - mFloatView.getHeight() -
+                          48 : mLayoutParams.y;
+
+        LogUtil.log("X:" + mLayoutParams.x + " Y:" + mLayoutParams.y);
+        mWindowManager.updateViewLayout(mFloatView, mLayoutParams);
 
         mX = event.getRawX();
         mY = event.getRawY();
-    }
-
-    /**
-     * 另外一種MoveView實現
-     *
-     * @param event
-     */
-    private void moveView2(MotionEvent event)
-    {
-        int height = mWindowManager.getDefaultDisplay().getHeight();
-
-        LogUtil.log("CurrentX:" + event.getRawX() + "/ CurrentY:" + event.getRawY());
-
-
-        int l = (int) event.getRawX() - (int) (originalWidth * 0.5);
-        int t = (int) event.getRawY() - titleBarPixels - (int) (originalHeight * 0.5);
-        int r = (int) event.getRawX() + originalWidth - (int) (originalWidth * 0.5);
-        int b = (int) event.getRawY() + originalHeight - titleBarPixels -
-                (int) (originalHeight * 0.5);
-
-        LogUtil.log("l:" + l + "t:" + t + "r:" + r + " b:" + b);
-
-
-        mFloatView.layout(l, t, r, b);
     }
 }
