@@ -3,6 +3,9 @@ package com.demo.safeBodyGuard;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
+
+import com.demo.safeBodyGuard.db.BlackListOpenHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +24,13 @@ public class ExampleInstrumentedTest
     public void useAppContext() throws Exception
     {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+     //   Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("volley.test.com.a01_safebodyguard", appContext.getPackageName());
+//        assertEquals("volley.test.com.a01_safebodyguard", appContext.getPackageName());
+
+        BlackListOpenHelper openHelper = new BlackListOpenHelper(InstrumentationRegistry.getContext());
+
+        Log.d("debug","----- openHelper -----");
+
     }
 }

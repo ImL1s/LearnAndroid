@@ -6,7 +6,7 @@ import android.os.Message;
 import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
-import com.demo.safeBodyGuard.dao.AddressDAO;
+import com.demo.safeBodyGuard.db.dao.AddressDAO;
 import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
@@ -16,7 +16,6 @@ import com.demo.safeBodyGuard.utils.JsonUtil;
 import com.demo.safeBodyGuard.utils.LogUtil;
 import com.demo.safeBodyGuard.utils.PackageUtil;
 import com.demo.safeBodyGuard.utils.SPUtil;
-import com.demo.safeBodyGuard.utils.ThreadUtil;
 import com.demo.safeBodyGuard.utils.ToastManager;
 
 import org.xutils.common.Callback;
