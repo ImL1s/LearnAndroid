@@ -72,10 +72,9 @@
         <service android:name=".service.SafeGuardLocationService"/>
         <service android:name=".service.PhoneAddressService"/>
 
-        <activity android:name=".activity.AToolActivity">
-        </activity>
-        <activity android:name=".activity.QueryAddressActivity">
-        </activity>
+        <activity android:name=".activity.AToolActivity"/>
+        <activity android:name=".activity.QueryAddressActivity"/>
+        <activity android:name=".activity.BlackListActivity"/>
     </application>
 
 </manifest>

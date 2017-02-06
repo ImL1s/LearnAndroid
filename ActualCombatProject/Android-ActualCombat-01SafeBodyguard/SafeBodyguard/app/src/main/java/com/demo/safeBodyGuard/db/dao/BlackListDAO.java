@@ -6,10 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.demo.safeBodyGuard.db.BlackListOpenHelper;
+import com.demo.safeBodyGuard.db.dao.model.BlackRoll;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ImL1s on 2017/2/3.
- * <p>
+ *
  * DESC:
  */
 
@@ -38,9 +42,10 @@ public class BlackListDAO
         return mInstance;
     }
 
-    public long insert(String number, String mode)
+    public long insert(String number, int mode)
     {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(BlackListOpenHelper.COL_NAME_PHONE_NUMBER, number);
         values.put(BlackListOpenHelper.COL_NAME_MODE, mode);
@@ -51,7 +56,7 @@ public class BlackListDAO
         return count;
     }
 
-    public void select(int id)
+    public List<BlackRoll> select(int id)
     {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
@@ -59,12 +64,25 @@ public class BlackListDAO
                  BlackListOpenHelper.COL_NAME_ID + " = ?", new String[]{id + ""}, null, null,
                  BlackListOpenHelper.COL_NAME_ID + " desc");
 
+        List<BlackRoll> blackRollList = new ArrayList<>();
+
         if(cursor.getCount() > 0)
         {
+            BlackRoll blackRoll;
+
             while (cursor.moveToNext())
             {
+                blackRoll = new BlackRoll();
+                blackRoll.id = cursor.getInt(0);
+                blackRoll.name = cursor.getString(1);
+                blackRoll.mode = cursor.getInt(2);
 
+                blackRollList.add(blackRoll);
             }
         }
+
+        db.close();
+
+        return blackRollList;
     }
 }

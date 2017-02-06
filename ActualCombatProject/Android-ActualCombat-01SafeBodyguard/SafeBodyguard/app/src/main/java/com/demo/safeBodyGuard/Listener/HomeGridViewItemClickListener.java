@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.activity.AToolActivity;
+import com.demo.safeBodyGuard.activity.BlackListActivity;
 import com.demo.safeBodyGuard.activity.SecurityActivity;
 import com.demo.safeBodyGuard.activity.SettingActivity;
 import com.demo.safeBodyGuard.define.Config;
@@ -39,6 +40,10 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showPwdDialog();
                 break;
 
+            case 1:
+                showBlackListActivity();
+                break;
+
             case 7:
                 showAToolActivity();
                 break;
@@ -47,6 +52,11 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showSettingActivity();
                 break;
         }
+    }
+
+    private void showBlackListActivity()
+    {
+        mContext.startActivity(new Intent(mContext, BlackListActivity.class));
     }
 
     private void showPwdDialog()

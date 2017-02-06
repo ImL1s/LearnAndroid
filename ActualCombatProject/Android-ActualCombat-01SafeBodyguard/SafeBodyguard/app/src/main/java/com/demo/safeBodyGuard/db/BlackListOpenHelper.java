@@ -20,7 +20,7 @@ public class BlackListOpenHelper extends SQLiteOpenHelper
 
     public BlackListOpenHelper(Context context)
     {
-        super(context, "blackList", null, 1);
+        super(context, "blackListDB.db", null, 2);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.demo.safeBodyGuard.db.BlackListOpenHelper;
+import com.demo.safeBodyGuard.db.dao.BlackListDAO;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,8 @@ public class ExampleInstrumentedTest
 //        assertEquals("volley.test.com.a01_safebodyguard", appContext.getPackageName());
 
         BlackListOpenHelper openHelper = new BlackListOpenHelper(InstrumentationRegistry.getContext());
+
+        BlackListDAO.getInstance(InstrumentationRegistry.getContext()).insert("110",2);
 
         Log.d("debug","----- openHelper -----");
 
