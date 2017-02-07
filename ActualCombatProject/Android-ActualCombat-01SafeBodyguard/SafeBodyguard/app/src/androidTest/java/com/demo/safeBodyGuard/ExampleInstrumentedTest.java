@@ -7,9 +7,12 @@ import android.util.Log;
 
 import com.demo.safeBodyGuard.db.BlackListOpenHelper;
 import com.demo.safeBodyGuard.db.dao.BlackListDAO;
+import com.demo.safeBodyGuard.db.dao.model.BlackRoll;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -25,15 +28,25 @@ public class ExampleInstrumentedTest
     public void useAppContext() throws Exception
     {
         // Context of the app under test.
-     //   Context appContext = InstrumentationRegistry.getTargetContext();
+        //   Context appContext = InstrumentationRegistry.getTargetContext();
 
-//        assertEquals("volley.test.com.a01_safebodyguard", appContext.getPackageName());
+        //        assertEquals("volley.test.com.a01_safebodyguard", appContext.getPackageName());
 
-        BlackListOpenHelper openHelper = new BlackListOpenHelper(InstrumentationRegistry.getContext());
+        BlackListOpenHelper openHelper =
+                new BlackListOpenHelper(InstrumentationRegistry.getContext());
+        Context context = InstrumentationRegistry.getTargetContext();
 
-        BlackListDAO.getInstance(InstrumentationRegistry.getContext()).insert("110",2);
+        //        BlackListDAO.getInstance(InstrumentationRegistry.getContext()).insert("110",2);
 
-        Log.d("debug","----- openHelper -----");
+        long insertRow = BlackListDAO.getInstance(context).insert("113", 2);
+        int updateRow = BlackListDAO.getInstance(context).update(1, "111", 1);
+        int deleteRow = BlackListDAO.getInstance(context).delete(1);
+        List<BlackRoll> blackRolls = BlackListDAO.getInstance(context).select(3);
+        List<BlackRoll> allBlackRolls = BlackListDAO.getInstance(context).selectAll();
+        List<BlackRoll> limitBlackRolls = BlackListDAO.getInstance(context).selectRange(0, 10);
+
+        Log.d("debug", "----- openHelper -----");
+
 
     }
 }

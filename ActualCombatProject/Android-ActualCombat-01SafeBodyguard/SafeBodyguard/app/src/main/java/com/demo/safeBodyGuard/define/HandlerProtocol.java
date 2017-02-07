@@ -24,8 +24,16 @@ public class HandlerProtocol
     public final static int IO_ERROR = 8;
 
     public final static int JSON_ERROR = 16;
-    
+
     public static final int CONTACTS_READ_OVER = 32;
 
-    public final static int QUERY_PHONE_ADDRESS_COMPLETED = 0x11;
+    public final static int QUERY_PHONE_ADDRESS_COMPLETED = 64;
+
+    /**
+     * 黑名單相關
+     */
+    public static final int ON_BLACK_LIST_SELECTED_ALL = 128;           // 查詢所有黑名單資料
+    public static final int ON_BLACK_LIST_ADD          = 256;           // 新增黑名單
+    public static final int ON_BLACK_LIST_INIT         = 512;           // 黑名單ListView初始化
+    public static final int ON_BLACK_LIST_LOADED       = 1024;          // 黑名單列表讀取完畢
 }

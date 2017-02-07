@@ -28,7 +28,7 @@ public class SettingItemInfo
     private View.OnClickListener onClickListener;
 
     /**
-     * 本方法將構建一個擁有CheckBox的Item
+     * 本方法將構建一個擁有箭頭的Item
      * @param title  顯示的文字標題
      * @param descOn 打勾時顯示的文字
      * @param descOn 沒打勾時顯示的文字

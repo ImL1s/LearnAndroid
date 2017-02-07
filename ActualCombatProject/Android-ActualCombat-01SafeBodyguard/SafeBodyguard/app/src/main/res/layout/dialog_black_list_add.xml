@@ -4,4 +4,68 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/dialog_black_list_add_tv_phone_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="加入黑名單號碼"
+        android:gravity="center"
+        android:background="#fff"
+        android:textColor="#000"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/dialog_black_list_add_et_phone_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="輸入攔截電話"/>
+
+    <RadioGroup
+        android:id="@+id/dialog_black_list_add_rg_mode"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/dialog_black_list_add_rb_msg"
+            android:text="簡訊"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/dialog_black_list_add_rb_phone"
+            android:text="電話"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/dialog_black_list_add_rb_all"
+            android:text="所有"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_black_list_add_btn_confirm"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="加入"/>
+
+        <Button
+            android:id="@+id/dialog_black_list_add_btn_cancel"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="取消"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>

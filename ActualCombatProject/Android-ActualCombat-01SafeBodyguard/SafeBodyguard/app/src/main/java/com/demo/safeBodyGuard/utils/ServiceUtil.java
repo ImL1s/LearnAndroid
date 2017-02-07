@@ -17,7 +17,7 @@ public class ServiceUtil
      * @param context 上下文
      * @return 返回指定的服務是否執行中
      */
-    public static boolean isRunnung(String serviceName, Context context)
+    public static boolean isRunning(String serviceName, Context context)
     {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 

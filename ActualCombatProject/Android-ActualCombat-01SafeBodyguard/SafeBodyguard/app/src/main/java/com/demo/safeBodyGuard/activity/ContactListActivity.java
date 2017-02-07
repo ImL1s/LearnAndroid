@@ -44,7 +44,6 @@ public class ContactListActivity extends BaseActivity
 
             adapter = new ContactsAdapter();
             mListView.setAdapter(adapter);
-//            mListView.deferNotifyDataSetChanged();
         }
     };
 

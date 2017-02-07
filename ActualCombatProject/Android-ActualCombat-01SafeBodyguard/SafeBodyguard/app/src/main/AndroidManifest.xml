@@ -40,7 +40,8 @@
         <activity android:name=".activity.SecuritySetup3Activity"/>
         <activity android:name=".activity.ContactListActivity"/>
         <activity android:name=".activity.SecuritySetup4Activity"/>
-        <activity android:name=".activity.PhoneAddressPosSettingActivity"
+        <activity
+            android:name=".activity.PhoneAddressPosSettingActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <receiver android:name=".receiver.BootReceiver">
@@ -75,6 +76,13 @@
         <activity android:name=".activity.AToolActivity"/>
         <activity android:name=".activity.QueryAddressActivity"/>
         <activity android:name=".activity.BlackListActivity"/>
+
+        <service
+            android:name=".service.BlackListService"
+            android:enabled="true"
+            android:exported="true"/>
+
+
     </application>
 
 </manifest>

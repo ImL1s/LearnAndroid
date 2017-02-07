@@ -2,7 +2,6 @@ package com.demo.safeBodyGuard;
 
 import android.util.Log;
 
-import com.demo.safeBodyGuard.db.BlackListOpenHelper;
 
 import org.junit.Test;
 
