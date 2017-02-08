@@ -305,11 +305,6 @@ public class BlackListDAO
                  BlackListOpenHelper.COL_NAME_PHONE_NUMBER + "=?", new String[]{phoneNumber}, null,
                  null, null);
 
-//        Cursor cursor = db.rawQuery("SELECT " + BlackListOpenHelper.COL_NAME_MODE + " FROM " +
-//                                    BlackListOpenHelper.TABLE_NAME_BLACKLIST + " WHERE " +
-//                                    BlackListOpenHelper.COL_NAME_PHONE_NUMBER + " = " + "'" +
-//                                    phoneNumber + "';", null);
-
         int mode;
         if (cursor.moveToNext())
         {

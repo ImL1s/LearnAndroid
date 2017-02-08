@@ -53,7 +53,6 @@ public class ContactListActivity extends BaseActivity
         setContentView(R.layout.activity_contact_list);
         super.onCreate(savedInstanceState);
 
-//        super.onCreate(savedInstanceState);
 
         mListView = (ListView) findViewById(R.id.lv_contacts);
         mListView.setOnItemClickListener((parent, view, position, id) -> {
