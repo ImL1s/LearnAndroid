@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.activity.AToolActivity;
+import com.demo.safeBodyGuard.activity.AppManagerActivity;
 import com.demo.safeBodyGuard.activity.BlackListActivity;
 import com.demo.safeBodyGuard.activity.SecurityActivity;
 import com.demo.safeBodyGuard.activity.SettingActivity;
@@ -44,6 +45,10 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showBlackListActivity();
                 break;
 
+            case 2:
+                showAppManagerActivity();
+                break;
+
             case 7:
                 showAToolActivity();
                 break;
@@ -52,6 +57,11 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showSettingActivity();
                 break;
         }
+    }
+
+    private void showAppManagerActivity()
+    {
+        mContext.startActivity(new Intent(mContext, AppManagerActivity.class));
     }
 
     private void showBlackListActivity()
@@ -64,7 +74,8 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
         AlertDialog dialog = new AlertDialog.Builder(mContext).create();
         View dialogContent;
 
-        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(mContext.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) mContext.getSystemService(mContext.INPUT_METHOD_SERVICE);
 
         // 還未設定密碼
         if (SPUtil.getString(mContext, Config.SP_KEY_STRING_PWD, null) == null)
@@ -134,7 +145,8 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
             dialog.setView(dialogContent);
         }
 
-        dialog.setOnShowListener(dialog1 -> inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY));
+        dialog.setOnShowListener(dialog1 -> inputMethodManager
+                .toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY));
         dialog.show();
     }
 

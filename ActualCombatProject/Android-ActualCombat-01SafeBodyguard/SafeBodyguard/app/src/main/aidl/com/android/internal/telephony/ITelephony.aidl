@@ -22,7 +22,7 @@ import android.telephony.NeighboringCellInfo;
 
 /**
  * Interface used to interact with the phone.  Mostly this is used by the
- * TelephonyManager class.  A few places are still using this directly.
+ * TelephonyManager class.  ProgressDialogProgressListener few places are still using this directly.
  * Please clean them up if possible and use TelephonyManager insteadl.
  *
  * {@hide}
