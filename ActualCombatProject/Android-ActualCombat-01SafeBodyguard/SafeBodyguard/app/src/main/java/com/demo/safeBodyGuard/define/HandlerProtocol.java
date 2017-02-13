@@ -36,4 +36,5 @@ public class HandlerProtocol
     public static final int ON_BLACK_LIST_ADD          = 256;           // 新增黑名單
     public static final int ON_BLACK_LIST_INIT         = 512;           // 黑名單ListView初始化
     public static final int ON_BLACK_LIST_LOADED       = 1024;          // 黑名單列表讀取完畢
+    public static final int ON_APP_INFO_LOADED         = 2048;
 }
