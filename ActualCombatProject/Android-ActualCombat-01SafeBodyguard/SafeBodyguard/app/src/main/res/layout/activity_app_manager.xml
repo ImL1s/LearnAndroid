@@ -48,7 +48,7 @@
             android:background="#ccc"
             android:textColor="#000"
             android:textSize="18sp"
-            android:text="硬碟可用"
+            android:text="一般應用(999)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

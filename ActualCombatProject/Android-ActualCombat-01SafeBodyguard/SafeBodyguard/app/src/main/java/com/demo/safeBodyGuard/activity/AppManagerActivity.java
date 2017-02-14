@@ -1,15 +1,16 @@
 package com.demo.safeBodyGuard.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import com.demo.safeBodyGuard.engine.AppInfoEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AppManagerActivity extends AppCompatActivity
 {
@@ -36,6 +38,7 @@ public class AppManagerActivity extends AppCompatActivity
     {
         private Context mContext;
         private ListView mListView = null;
+        private TextView mTopTitleTv;
 
         @Override
         public void handleMessage(Message msg)
@@ -44,13 +47,21 @@ public class AppManagerActivity extends AppCompatActivity
             {
                 Object[] obj = (Object[]) msg.obj;
                 List<AppInfo> allAppInfoList = (List<AppInfo>) obj[0];
-                List<AppInfo> notSysAppInfoList = (List<AppInfo>) obj[1];
-                List<AppInfo> sysAppInfoList = (List<AppInfo>) obj[2];
+                List<AppInfo> sysAppInfoList = (List<AppInfo>) obj[1];
+                List<AppInfo> notSysAppInfoList = (List<AppInfo>) obj[2];
                 mListView = (ListView) obj[3];
                 mContext = (Context) obj[4];
+                mTopTitleTv = (TextView) obj[5];
 
-                AppInfoAdapter adapter = new AppInfoAdapter(allAppInfoList, notSysAppInfoList, sysAppInfoList, mContext);
+                Locale zhLocale = new Locale("zh");
+                mTopTitleTv.setText(String.format(zhLocale, "一般應用(%d)", notSysAppInfoList.size()));
+
+                AppInfoAdapter adapter =
+                        new AppInfoAdapter(allAppInfoList, notSysAppInfoList, sysAppInfoList,
+                                           mContext);
                 mListView.setAdapter(adapter);
+                mListView.setOnScrollListener(
+                        new AppInfoListViewOnScrollListener(adapter, notSysAppInfoList,sysAppInfoList,mTopTitleTv));
             }
         }
     };
@@ -71,15 +82,19 @@ public class AppManagerActivity extends AppCompatActivity
 
     private void initTitle()
     {
-        String innerSize = Formatter.formatFileSize(this, getUsableSpace(Environment.getDataDirectory().getAbsolutePath()));
+        String innerSize = Formatter.formatFileSize(this, getUsableSpace(
+                Environment.getDataDirectory().getAbsolutePath()));
 
-        String externalSize = Formatter.formatFileSize(this, getUsableSpace(Environment.getExternalStorageDirectory().getAbsolutePath()));
+        String externalSize = Formatter.formatFileSize(this, getUsableSpace(
+                Environment.getExternalStorageDirectory().getAbsolutePath()));
 
         Toast.makeText(this, innerSize, Toast.LENGTH_LONG).show();
 
-        TextView tv_innerStorage = (TextView) findViewById(R.id.activity_app_manager_tv_inner_storage);
+        TextView tv_innerStorage =
+                (TextView) findViewById(R.id.activity_app_manager_tv_inner_storage);
 
-        TextView tv_externalStorage = (TextView) findViewById(R.id.activity_app_manager_tv_external_storage);
+        TextView tv_externalStorage =
+                (TextView) findViewById(R.id.activity_app_manager_tv_external_storage);
 
         tv_innerStorage.setText("內部存儲" + innerSize);
         tv_externalStorage.setText("外部存儲" + externalSize);
@@ -101,7 +116,8 @@ public class AppManagerActivity extends AppCompatActivity
 
             Message msg = Message.obtain();
             msg.what = HandlerProtocol.ON_APP_INFO_LOADED;
-            msg.obj = new Object[]{mAllAppInfoList, mSysAppInfoList, mNotSysAppInfoList, mListView, this};
+            msg.obj = new Object[]{mAllAppInfoList, mSysAppInfoList, mNotSysAppInfoList, mListView,
+                                   this, mTopTitleTextView};
             msg.setTarget(mHandler);
             msg.sendToTarget();
 
@@ -135,7 +151,8 @@ public class AppManagerActivity extends AppCompatActivity
         private List<AppInfo> mNotSysAppInfoList;
         private List<AppInfo> mSysAppInfoList;
 
-        AppInfoAdapter(List<AppInfo> mAllAppInfoList, List<AppInfo> mNotSysAppInfoList, List<AppInfo> mSysAppInfoList, Context context)
+        AppInfoAdapter(List<AppInfo> mAllAppInfoList, List<AppInfo> mNotSysAppInfoList,
+                       List<AppInfo> mSysAppInfoList, Context context)
         {
             this.mAllAppInfoList = mAllAppInfoList;
             this.mNotSysAppInfoList = mNotSysAppInfoList;
@@ -156,7 +173,8 @@ public class AppManagerActivity extends AppCompatActivity
         @Override
         public int getItemViewType(int position)
         {
-            return (position == 0 || position == mNotSysAppInfoList.size() + 1) ? ITEM_TYPE_TITLE : ITEM_TYPE_APP_INFO;
+            return (position == 0 || position == mNotSysAppInfoList.size() + 1) ? ITEM_TYPE_TITLE :
+                   ITEM_TYPE_APP_INFO;
         }
 
         @Override
@@ -175,7 +193,20 @@ public class AppManagerActivity extends AppCompatActivity
             }
 
             //檢查是小於第二標題欄還是大於第二個標題欄
-            return mAllAppInfoList.get(position < mNotSysAppInfoList.size() + 1 ? position - 1 : position + 2);
+            //            return mAllAppInfoList.get(position < mNotSysAppInfoList.size() + 1 ? position - 1 : position + 2);
+
+            int index;
+
+            if (position < mNotSysAppInfoList.size() + 1)
+            {
+                index = position - 1;
+                return mNotSysAppInfoList.get(index);
+            }
+            else
+            {
+                index = position - mNotSysAppInfoList.size() - 2;
+                return mSysAppInfoList.get(index);
+            }
         }
 
         @Override
@@ -191,12 +222,14 @@ public class AppManagerActivity extends AppCompatActivity
 
             if (itemType == ITEM_TYPE_TITLE)
             {
+                // 顯示標題欄
                 TextView title;
 
                 if (convertView == null)
                 {
                     convertView = View.inflate(mContext, R.layout.listview_app_item_title, null);
-                    title = (TextView) convertView.findViewById(R.id.list_view_app_item_title_tv_title);
+                    title = (TextView) convertView
+                            .findViewById(R.id.list_view_app_item_title_tv_title);
                     convertView.setTag(new TitleItemHolder(title));
                 }
                 else
@@ -204,10 +237,12 @@ public class AppManagerActivity extends AppCompatActivity
                     title = ((TitleItemHolder) convertView.getTag()).tvTitle;
                 }
 
-                title.setText(position == 0 ? "一般應用:(" + mNotSysAppInfoList.size() + ")" : "系統應用:(" + mSysAppInfoList.size() + ")");
+                title.setText(position == 0 ? "一般應用:(" + mNotSysAppInfoList.size() + ")" :
+                              "系統應用:(" + mSysAppInfoList.size() + ")");
             }
             else
             {
+                // 顯示AppInfo欄
                 TextView tvName;
                 TextView tvPath;
                 ImageView ivIcon;
@@ -265,6 +300,50 @@ public class AppManagerActivity extends AppCompatActivity
                 this.tvPath = tvPath;
                 this.ivIcon = ivIcon;
             }
+        }
+    }
+
+
+    static class AppInfoListViewOnScrollListener implements AbsListView.OnScrollListener
+    {
+        private final AppInfoAdapter mAdapter;
+        private final List<AppInfo> mNotSysAppInfoList;
+        private final List<AppInfo> mSysAppInfoList;
+        private final TextView mTopTitleTv;
+
+        public AppInfoListViewOnScrollListener(AppInfoAdapter adapter,
+                                               List<AppInfo> notSysAppInfoList,
+                                               List<AppInfo> sysAppInfoList, TextView mTopTitleTv)
+        {
+
+            this.mAdapter = adapter;
+            this.mNotSysAppInfoList = notSysAppInfoList;
+            this.mSysAppInfoList = sysAppInfoList;
+            this.mTopTitleTv = mTopTitleTv;
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState)
+        {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                             int totalItemCount)
+        {
+            if (firstVisibleItem < mNotSysAppInfoList.size() + 1)
+            {
+                Locale zhLocale = new Locale("zh");
+                mTopTitleTv.setText(String.format(zhLocale, "一般應用(%d)", mNotSysAppInfoList.size()));
+            }
+            else
+            {
+                Locale zhLocale = new Locale("zh");
+                mTopTitleTv.setText(String.format(zhLocale, "系統應用(%d)", mSysAppInfoList.size()));
+            }
+            //            Log.d("debug", "firstVisibleItem: " + firstVisibleItem + "/visibleItemCount: " +
+            //                           visibleItemCount + "/ totalItemCount: " + totalItemCount);
         }
     }
 }
