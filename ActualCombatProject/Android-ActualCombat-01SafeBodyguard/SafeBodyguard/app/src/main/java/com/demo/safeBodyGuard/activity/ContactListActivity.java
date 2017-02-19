@@ -124,8 +124,8 @@ public class ContactListActivity extends BaseActivity
                                 map.put(Config.INTENT_DATA_KEY_PHONE,data);
                                 break;
 
-                            case "vnd.android.cursor.item/name":
-                                map.put("name",data);
+                            case "vnd.android.cursor.item/packageName":
+                                map.put("packageName",data);
                                 break;
                         }
 
@@ -175,7 +175,7 @@ public class ContactListActivity extends BaseActivity
             TextView tv_name = (TextView) item.findViewById(R.id.contact_item_tv_name);
             TextView tv_phone = (TextView) item.findViewById(R.id.contact_item_tv_phone);
 
-            tv_name.setText(getItem(position).get("name"));
+            tv_name.setText(getItem(position).get("packageName"));
             tv_phone.setText(getItem(position).get("phone"));
 
             return item;

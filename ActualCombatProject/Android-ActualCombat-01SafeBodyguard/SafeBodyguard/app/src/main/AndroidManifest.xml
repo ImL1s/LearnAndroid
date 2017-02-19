@@ -51,7 +51,7 @@
         <activity android:name=".activity.QueryAddressActivity"/>
         <activity android:name=".activity.BlackListActivity"/>
         <activity android:name=".activity.AppManagerActivity"/>
-
+        <activity android:name=".activity.ProcessManagerActivity"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
@@ -81,13 +81,13 @@
 
         <service android:name=".service.SafeGuardLocationService"/>
         <service android:name=".service.PhoneAddressService"/>
-
         <service
             android:name=".service.BlackListService"
             android:enabled="true"
             android:exported="true"/>
 
-
+        <activity android:name=".activity.ProcessManagerActivity">
+        </activity>
     </application>
 
 </manifest>

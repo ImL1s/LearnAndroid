@@ -19,4 +19,8 @@
     <string name="btn_pre">上一步</string>
     <string name="activity_setting_phone_address_service_open">已開啟</string>
     <string name="activity_setting_phone_address_service_off">已關閉</string>
+    <string name="select_all">全選</string>
+    <string name="select_anti">反選</string>
+    <string name="one_key_clear">一鍵清理</string>
+    <string name="setting">設定</string>
 </resources>

@@ -13,6 +13,7 @@ import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.activity.AToolActivity;
 import com.demo.safeBodyGuard.activity.AppManagerActivity;
 import com.demo.safeBodyGuard.activity.BlackListActivity;
+import com.demo.safeBodyGuard.activity.ProcessManagerActivity;
 import com.demo.safeBodyGuard.activity.SecurityActivity;
 import com.demo.safeBodyGuard.activity.SettingActivity;
 import com.demo.safeBodyGuard.define.Config;
@@ -49,6 +50,10 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showAppManagerActivity();
                 break;
 
+            case 3:
+                showProcessManagerActivity();
+                break;
+
             case 7:
                 showAToolActivity();
                 break;
@@ -57,6 +62,11 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showSettingActivity();
                 break;
         }
+    }
+
+    private void showProcessManagerActivity()
+    {
+        mContext.startActivity(new Intent(mContext, ProcessManagerActivity.class));
     }
 
     private void showAppManagerActivity()
