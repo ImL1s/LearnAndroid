@@ -1,6 +1,10 @@
 package com.demo.safeBodyGuard.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -8,12 +12,15 @@ import android.os.Message;
 import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +28,7 @@ import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.db.dao.model.AppInfo;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.engine.AppInfoEngine;
+import com.demo.safeBodyGuard.utils.ToastManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,37 +42,8 @@ public class AppManagerActivity extends AppCompatActivity
     private List<AppInfo> mSysAppInfoList;
     private List<AppInfo> mNotSysAppInfoList;
 
-    private static Handler mHandler = new Handler()
-    {
-        private Context mContext;
-        private ListView mListView = null;
-        private TextView mTopTitleTv;
+    private AppManagerHandler mHandler = new AppManagerHandler();
 
-        @Override
-        public void handleMessage(Message msg)
-        {
-            if (HandlerProtocol.ON_APP_INFO_LOADED == msg.what)
-            {
-                Object[] obj = (Object[]) msg.obj;
-                List<AppInfo> allAppInfoList = (List<AppInfo>) obj[0];
-                List<AppInfo> sysAppInfoList = (List<AppInfo>) obj[1];
-                List<AppInfo> notSysAppInfoList = (List<AppInfo>) obj[2];
-                mListView = (ListView) obj[3];
-                mContext = (Context) obj[4];
-                mTopTitleTv = (TextView) obj[5];
-
-                Locale zhLocale = new Locale("zh");
-                mTopTitleTv.setText(String.format(zhLocale, "一般應用(%d)", notSysAppInfoList.size()));
-
-                AppInfoAdapter adapter =
-                        new AppInfoAdapter(allAppInfoList, notSysAppInfoList, sysAppInfoList,
-                                           mContext);
-                mListView.setAdapter(adapter);
-                mListView.setOnScrollListener(
-                        new AppInfoListViewOnScrollListener(adapter, notSysAppInfoList,sysAppInfoList,mTopTitleTv));
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,7 +53,6 @@ public class AppManagerActivity extends AppCompatActivity
 
         mListView = (ListView) findViewById(R.id.activity_app_manager_lv_app_info);
         mTopTitleTextView = (TextView) findViewById(R.id.activity_app_manager_tv_top_title);
-
 
         initTitle();
         initData();
@@ -137,6 +115,7 @@ public class AppManagerActivity extends AppCompatActivity
 
         return blockCount * blockSize;
     }
+
 
     /**
      * App Info Adapter
@@ -307,9 +286,9 @@ public class AppManagerActivity extends AppCompatActivity
     static class AppInfoListViewOnScrollListener implements AbsListView.OnScrollListener
     {
         private final AppInfoAdapter mAdapter;
-        private final List<AppInfo> mNotSysAppInfoList;
-        private final List<AppInfo> mSysAppInfoList;
-        private final TextView mTopTitleTv;
+        private final List<AppInfo>  mNotSysAppInfoList;
+        private final List<AppInfo>  mSysAppInfoList;
+        private final TextView       mTopTitleTv;
 
         public AppInfoListViewOnScrollListener(AppInfoAdapter adapter,
                                                List<AppInfo> notSysAppInfoList,
@@ -344,6 +323,126 @@ public class AppManagerActivity extends AppCompatActivity
             }
             //            Log.d("debug", "firstVisibleItem: " + firstVisibleItem + "/visibleItemCount: " +
             //                           visibleItemCount + "/ totalItemCount: " + totalItemCount);
+        }
+    }
+
+    /**
+     * AppManager Handler
+     */
+    static class AppManagerHandler extends Handler implements View.OnClickListener
+    {
+        private Context mContext;
+        private ListView mListView = null;
+        private TextView       mTopTitleTv;
+        private AppInfoAdapter mAppInfoAdapter;
+        private AppInfo        mSelectedAppInfo;
+
+        @Override
+        public void handleMessage(Message msg)
+        {
+            if (HandlerProtocol.ON_APP_INFO_LOADED == msg.what)
+            {
+                Object[] obj = (Object[]) msg.obj;
+                List<AppInfo> allAppInfoList = (List<AppInfo>) obj[0];
+                List<AppInfo> sysAppInfoList = (List<AppInfo>) obj[1];
+                List<AppInfo> notSysAppInfoList = (List<AppInfo>) obj[2];
+                mListView = (ListView) obj[3];
+                mContext = (Context) obj[4];
+                mTopTitleTv = (TextView) obj[5];
+
+                Locale zhLocale = new Locale("zh");
+                mTopTitleTv.setText(String.format(zhLocale, "一般應用(%d)", notSysAppInfoList.size()));
+
+                mAppInfoAdapter =
+                        new AppInfoAdapter(allAppInfoList, notSysAppInfoList, sysAppInfoList,
+                                           mContext);
+
+                setUpListView(notSysAppInfoList, sysAppInfoList);
+            }
+        }
+
+        private void setUpListView(List<AppInfo> notSysAppInfoList, List<AppInfo> sysAppInfoList)
+        {
+            mListView.setAdapter(mAppInfoAdapter);
+            mListView.setOnScrollListener(
+                    new AppInfoListViewOnScrollListener(mAppInfoAdapter, notSysAppInfoList,
+                                                        sysAppInfoList, mTopTitleTv));
+
+            mListView.setOnItemClickListener((parent, view, position, id) -> {
+
+                AppInfoAdapter adapter = getAppInfoAdapter();
+                mSelectedAppInfo = (AppInfo) adapter.getItem(position);
+                showPopupWindow(view);
+            });
+        }
+
+        public AppInfoAdapter getAppInfoAdapter()
+        {
+            return mAppInfoAdapter;
+        }
+
+        private void showPopupWindow(View anchor)
+        {
+            View v = View.inflate(mContext, R.layout.popupwindow_app_manager, null);
+
+            TextView tv_start = (TextView) v.findViewById(R.id.pop_up_window_app_manager_tv_start);
+            TextView tv_share = (TextView) v.findViewById(R.id.pop_up_window_app_manager_tv_share);
+            TextView tv_uninstall =
+                    (TextView) v.findViewById(R.id.pop_up_window_app_manager_tv_uninstall);
+
+            tv_start.setOnClickListener(this);
+            tv_share.setOnClickListener(this);
+            tv_uninstall.setOnClickListener(this);
+
+            PopupWindow popupWindow = new PopupWindow(v, LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                      LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+            popupWindow.setBackgroundDrawable(new ColorDrawable());
+            popupWindow
+                    .showAsDropDown(anchor, (int) (anchor.getWidth() * 0.5), -anchor.getHeight());
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            switch (v.getId())
+            {
+                case R.id.pop_up_window_app_manager_tv_share:
+                    Intent msgIntent = new Intent(Intent.ACTION_SEND);
+                    msgIntent.putExtra(Intent.EXTRA_TEXT, "分享應用:" + mSelectedAppInfo.name);
+                    msgIntent.setType("text/plain");
+                    mContext.startActivity(msgIntent);
+                    break;
+
+                case R.id.pop_up_window_app_manager_tv_start:
+                    PackageManager pm = mContext.getPackageManager();
+                    Intent launchIntent =
+                            pm.getLaunchIntentForPackage(mSelectedAppInfo.packageName);
+                    if (launchIntent != null)
+                    {
+                        mContext.startActivity(launchIntent);
+                    }
+                    else
+                    {
+                        ToastManager.getInstance().showToast("無法啟動應用");
+                    }
+                    break;
+
+                case R.id.pop_up_window_app_manager_tv_uninstall:
+
+                    if (mSelectedAppInfo.isSystem)
+                    {
+                        ToastManager.getInstance().showToast("系統應用無法刪除");
+                    }
+                    else
+                    {
+                        Intent intent = new Intent("android.intent.action.DELETE");
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse("package:" + mSelectedAppInfo.packageName));
+                        mContext.startActivity(intent);
+                    }
+                    break;
+            }
         }
     }
 }
