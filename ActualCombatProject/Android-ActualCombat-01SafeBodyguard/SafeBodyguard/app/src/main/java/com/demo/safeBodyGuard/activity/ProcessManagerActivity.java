@@ -5,9 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,7 +66,8 @@ public class ProcessManagerActivity extends AppCompatActivity
         double availMemoryGB = ((double) availMemoryByte) / 1024 / 1024 / 1024;
         double totalMemoryGB = ((double) totalMemoryByte) / 1024 / 1024 / 1024;
 
-        tv_process_memory.setText(String.format(Locale.CHINESE, "%.2fG(可用)/%.2fG(不可用)", availMemoryGB, totalMemoryGB));
+        tv_process_memory.setText(
+                String.format(Locale.CHINESE, "%.2fG(可用)/%.2fG(總共)", availMemoryGB, totalMemoryGB));
 
         new Thread(() -> {
 
@@ -106,8 +110,11 @@ public class ProcessManagerActivity extends AppCompatActivity
                     break;
 
                 case HandlerProtocol.ON_PROCESS_INFO_SPLIT:
-                    ProcessManagerActivity processManagerActivity = (ProcessManagerActivity) mWeakCtxRef.get();
-                    processManagerActivity.getProcessListView().setAdapter(new ProcessInfoAdapter(processManagerActivity, mProcessInfoList, mCommonProcessInfoList, mSystemProcessInfoList));
+                    ProcessManagerActivity processManagerActivity =
+                            (ProcessManagerActivity) mWeakCtxRef.get();
+                    processManagerActivity.getProcessListView().setAdapter(
+                            new ProcessInfoAdapter(processManagerActivity, mProcessInfoList,
+                                                   mCommonProcessInfoList, mSystemProcessInfoList));
                     break;
             }
 
@@ -144,7 +151,8 @@ public class ProcessManagerActivity extends AppCompatActivity
 
             for (ProcessInfo info : allProcessInfoList)
             {
-                List<ProcessInfo> temp = info.isSystem ? mSystemProcessInfoList : mCommonProcessInfoList;
+                List<ProcessInfo> temp =
+                        info.isSystem ? mSystemProcessInfoList : mCommonProcessInfoList;
                 temp.add(info);
             }
         }
@@ -153,9 +161,10 @@ public class ProcessManagerActivity extends AppCompatActivity
 
     static class ProcessInfoAdapter extends BaseAdapter
     {
-        private static final int VIEW_TYPE_TITLE = 259;
+        private static final int VIEW_TYPE_TITLE = 0;
 
-        private static final int VIEW_TYPE_INFO = 411;
+        private static final int VIEW_TYPE_INFO = 1;
+
 
         private WeakReference<Context> mWeakCtxRef;
 
@@ -165,10 +174,12 @@ public class ProcessManagerActivity extends AppCompatActivity
 
         private List<ProcessInfo> mSystemProcessInfoList;
 
-        public ProcessInfoAdapter(Context context, List<ProcessInfo> mProcessInfoList, List<ProcessInfo> commonProcessInfoList, List<ProcessInfo> systemProcessInfoList)
+        public ProcessInfoAdapter(Context context, List<ProcessInfo> processInfoList,
+                                  List<ProcessInfo> commonProcessInfoList,
+                                  List<ProcessInfo> systemProcessInfoList)
         {
             mWeakCtxRef = new WeakReference<>(context);
-            this.mProcessInfoList = systemProcessInfoList;
+            this.mProcessInfoList = processInfoList;
             this.mCommonProcessInfoList = commonProcessInfoList;
             this.mSystemProcessInfoList = systemProcessInfoList;
         }
@@ -177,6 +188,7 @@ public class ProcessManagerActivity extends AppCompatActivity
         @Override
         public int getItemViewType(int position)
         {
+            Log.d("debug", "getItemViewType");
             if (position == 0 || position == mCommonProcessInfoList.size() + 1)
                 return VIEW_TYPE_TITLE;
 
@@ -186,20 +198,26 @@ public class ProcessManagerActivity extends AppCompatActivity
         @Override
         public int getViewTypeCount()
         {
+            Log.d("debug", "getViewTypeCount");
             return super.getViewTypeCount() + 1;
         }
 
         @Override
         public int getCount()
         {
+            Log.d("debug", "getCount");
             return mProcessInfoList.size() + 2;
         }
 
         @Override
         public Object getItem(int position)
         {
-            if (position == 0) return "一般應用";
-            if (position == mCommonProcessInfoList.size() + 1) return "系統應用";
+            Log.d("debug", "getItem");
+
+            if (position == 0)
+                return "一般應用";
+            if (position == mCommonProcessInfoList.size() + 1)
+                return "系統應用";
 
             if (position < mCommonProcessInfoList.size() + 1)
                 return mCommonProcessInfoList.get(position - 1);
@@ -207,7 +225,7 @@ public class ProcessManagerActivity extends AppCompatActivity
             if (position > mCommonProcessInfoList.size() + 1)
                 return mSystemProcessInfoList.get(position - 2);
 
-            return null;
+            return "";
         }
 
         @Override
@@ -227,17 +245,81 @@ public class ProcessManagerActivity extends AppCompatActivity
             }
             else
             {
-                view = View.inflate(mWeakCtxRef.get(), R.layout.listview_app_item_title, null);
+                view = showInfo(position, convertView, parent);
             }
 
             return view;
+        }
+
+        private void initViewAndHolder(View convertView, InfoViewHolder holder)
+        {
+            convertView = View.inflate(mWeakCtxRef.get(), R.layout.listview_process_item, null);
+
+            holder = new InfoViewHolder();
+
+            holder.cb_box = (CheckBox) convertView.findViewById(R.id.list_view_process_cb_box);
+            holder.tv_app_name =
+                    (TextView) convertView.findViewById(R.id.list_view_process_tv_name);
+            holder.tv_memory_info =
+                    (TextView) convertView.findViewById(R.id.list_view_process_tv_memory_info);
+            holder.tv_icon = (ImageView) convertView.findViewById(R.id.list_view_process_iv_icon);
+        }
+
+        private View showInfo(int position, View convertView, ViewGroup parent)
+        {
+            InfoViewHolder holder = null;
+
+            if (convertView != null)
+            {
+                holder = (InfoViewHolder) convertView.getTag();
+
+                if (holder == null)
+                {
+                    convertView = View.inflate(mWeakCtxRef.get(), R.layout.listview_process_item, null);
+
+                    holder = new InfoViewHolder();
+
+                    holder.cb_box = (CheckBox) convertView.findViewById(R.id.list_view_process_cb_box);
+                    holder.tv_app_name =
+                            (TextView) convertView.findViewById(R.id.list_view_process_tv_name);
+                    holder.tv_memory_info =
+                            (TextView) convertView.findViewById(R.id.list_view_process_tv_memory_info);
+                    holder.tv_icon = (ImageView) convertView.findViewById(R.id.list_view_process_iv_icon);
+                }
+            }
+            else
+            {
+                convertView = View.inflate(mWeakCtxRef.get(), R.layout.listview_process_item, null);
+
+                holder = new InfoViewHolder();
+
+                holder.cb_box = (CheckBox) convertView.findViewById(R.id.list_view_process_cb_box);
+                holder.tv_app_name =
+                        (TextView) convertView.findViewById(R.id.list_view_process_tv_name);
+                holder.tv_memory_info =
+                        (TextView) convertView.findViewById(R.id.list_view_process_tv_memory_info);
+                holder.tv_icon = (ImageView) convertView.findViewById(R.id.list_view_process_iv_icon);
+            }
+
+            Object temp = getItem(position);
+
+            if (temp.getClass().equals(String.class))
+                return new View(mWeakCtxRef.get());
+
+            ProcessInfo processInfo = (ProcessInfo) getItem(position);
+
+            holder.tv_app_name.setText(processInfo.appName);
+            holder.tv_memory_info.setText(("使用的記憶體:" + processInfo.privateDirty));
+            holder.tv_icon.setImageDrawable(processInfo.icon);
+
+            return convertView;
         }
 
         private View showTitle(int position, View convertView, ViewGroup parent)
         {
             TitleViewHolder holder;
 
-            if(convertView != null)
+            if (convertView != null)
             {
                 holder = (TitleViewHolder) convertView.getTag();
             }
@@ -245,20 +327,33 @@ public class ProcessManagerActivity extends AppCompatActivity
             {
                 holder = new TitleViewHolder();
 
-                convertView = View.inflate(mWeakCtxRef.get(), R.layout.listview_app_item_title, null);
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.list_view_app_item_title_tv_title);
+                convertView =
+                        View.inflate(mWeakCtxRef.get(), R.layout.listview_app_item_title, null);
+
+                holder.tvTitle =
+                        (TextView) convertView.findViewById(R.id.list_view_app_item_title_tv_title);
 
                 convertView.setTag(holder);
             }
 
             holder.tvTitle.setText(String.format(Locale.CHINESE, "%s(%d)",
-                                                 getItem(position), position == 0 ? mCommonProcessInfoList.size() : mSystemProcessInfoList.size()));
+                                                 getItem(position) == null ? "" : getItem(position),
+                                                 position == 0 ? mCommonProcessInfoList.size() :
+                                                 mSystemProcessInfoList.size()));
             return convertView;
         }
 
         class TitleViewHolder
         {
             TextView tvTitle;
+        }
+
+        class InfoViewHolder
+        {
+            ImageView tv_icon;
+            TextView  tv_app_name;
+            TextView  tv_memory_info;
+            CheckBox  cb_box;
         }
     }
 }

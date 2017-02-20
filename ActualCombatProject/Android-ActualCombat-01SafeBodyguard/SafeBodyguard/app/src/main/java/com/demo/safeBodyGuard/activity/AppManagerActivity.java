@@ -15,6 +15,10 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -394,12 +398,45 @@ public class AppManagerActivity extends AppCompatActivity
             tv_share.setOnClickListener(this);
             tv_uninstall.setOnClickListener(this);
 
+            AnimationSet animationSet = prepareAnimationSet();
+
             PopupWindow popupWindow = new PopupWindow(v, LinearLayout.LayoutParams.WRAP_CONTENT,
                                                       LinearLayout.LayoutParams.WRAP_CONTENT, true);
 
             popupWindow.setBackgroundDrawable(new ColorDrawable());
             popupWindow
                     .showAsDropDown(anchor, (int) (anchor.getWidth() * 0.5), -anchor.getHeight());
+
+
+            v.startAnimation(animationSet);
+        }
+
+        private AnimationSet prepareAnimationSet()
+        {
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+
+            alphaAnimation.setFillAfter(true);
+            alphaAnimation.setDuration(1000);
+
+            ScaleAnimation scaleAnimation1 =
+                    new ScaleAnimation(0, 1.1f, 0, 1.1f, ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                                       Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation1.setDuration(500);
+            scaleAnimation1.setStartOffset(0);
+
+            ScaleAnimation scaleAnimation2 =
+                    new ScaleAnimation(1.0f, 0.9f, 1.0f, 0.9f, ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                                       Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation2.setDuration(800);
+            scaleAnimation2.setStartOffset(500);
+            scaleAnimation2.setFillAfter(true);
+
+            AnimationSet set = new AnimationSet(true);
+            set.addAnimation(alphaAnimation);
+            set.addAnimation(scaleAnimation1);
+            set.addAnimation(scaleAnimation2);
+            set.setFillAfter(true);
+            return set;
         }
 
         @Override
