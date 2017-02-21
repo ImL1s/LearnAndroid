@@ -16,8 +16,10 @@ public class ProcessInfo
     /**
      * 佔用記憶體的大小(Bytes)
      */
-    public long   privateDirty;
+    public long privateDirty;
 
 
     public String appName;
+
+    public boolean isChecked;
 }
