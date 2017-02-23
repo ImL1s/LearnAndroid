@@ -68,7 +68,8 @@ public abstract class BaseActivity extends Activity
                                                                   Manifest.permission.ACCESS_COARSE_LOCATION,
                                                                   Manifest.permission.ACCESS_FINE_LOCATION,
                                                                   Manifest.permission.READ_PHONE_STATE,
-                                                                  Manifest.permission.PROCESS_OUTGOING_CALLS},
+                                                                  Manifest.permission.PROCESS_OUTGOING_CALLS,
+                                                                  Manifest.permission.KILL_BACKGROUND_PROCESSES},
                                                      new MPermissionUtil.OnPermissionListener()
                                                      {
                                                          @Override

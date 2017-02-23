@@ -39,13 +39,16 @@ public class HandlerProtocol
     public static final int ON_APP_INFO_LOADED         = 2048;
 
 
-    public static final int ON_PROCESS_INFO_LOADED         = 4096;          // 運行中Process清單讀取完畢
-    public static final int ON_PROCESS_INFO_SPLIT          = 8192;
+    public static final int ON_PROCESS_INFO_LOADED = 4096;          // 運行中Process清單讀取完畢
+    public static final int ON_PROCESS_INFO_SPLIT  = 8192;
 
-            // 運行中Process清單拆分完畢(分為系統和一般)
-    public static final int ON_PROCESS_BTN_CLICK_ALL       = 16384;
+    // 運行中Process清單拆分完畢(分為系統和一般)
+    public static final int ON_PROCESS_BTN_CLICK_ALL = 16384;
 
-            // 按下Process activity全選的按鈕
-    public static final int ON_PROCESS_BTN_CLICK_ALL_CLEAR = 32768;
+    // 按下Process activity全選的按鈕
+    public static final int ON_PROCESS_BTN_CLICK_ALL_ANTI = 32768;
 
+    public static final int ON_PROCESS_BTN_CLICK_CLEAR   = 65536;
+    public static final int ON_PROCESS_BTN_CLICK_SETTING = 131072;
+    public static final int ON_SETTING_SETUP             = 131072 * 2;
 }

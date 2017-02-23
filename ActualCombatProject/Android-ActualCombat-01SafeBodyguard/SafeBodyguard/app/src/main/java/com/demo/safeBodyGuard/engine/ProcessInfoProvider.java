@@ -100,8 +100,10 @@ public class ProcessInfoProvider
         {
             try
             {
-                if (fileReader != null) fileReader.close();
-                if (bufferedReader != null) bufferedReader.close();
+                if (fileReader != null)
+                    fileReader.close();
+                if (bufferedReader != null)
+                    bufferedReader.close();
             }
             catch (IOException e)
             {
@@ -115,6 +117,7 @@ public class ProcessInfoProvider
 
     /**
      * 取得當前正在運行的應用資訊
+     *
      * @param ctx
      * @return
      */
@@ -123,7 +126,8 @@ public class ProcessInfoProvider
         ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
         PackageManager pm = ctx.getPackageManager();
 
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList = am.getRunningAppProcesses();
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
+                am.getRunningAppProcesses();
         List<ProcessInfo> processInfoList = new ArrayList<>();
 
         for (ActivityManager.RunningAppProcessInfo info : runningAppProcessInfoList)
@@ -132,7 +136,8 @@ public class ProcessInfoProvider
 
             processInfo.packageName = info.processName;
 
-            android.os.Debug.MemoryInfo memoryInfo = am.getProcessMemoryInfo(new int[]{info.pid})[0];
+            android.os.Debug.MemoryInfo memoryInfo =
+                    am.getProcessMemoryInfo(new int[]{info.pid})[0];
 
             processInfo.privateDirty = memoryInfo.getTotalPrivateDirty();
 
@@ -141,7 +146,8 @@ public class ProcessInfoProvider
             {
                 ApplicationInfo applicationInfo = pm.getApplicationInfo(processInfo.packageName, 0);
 
-                processInfo.isSystem = (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
+                processInfo.isSystem = (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) ==
+                                       ApplicationInfo.FLAG_SYSTEM;
 
                 processInfo.appName = applicationInfo.loadLabel(pm).toString();
 
@@ -161,5 +167,17 @@ public class ProcessInfoProvider
         }
 
         return processInfoList;
+    }
+
+    /**
+     * 殺死進程
+     * @param context
+     * @param processInfo
+     */
+    public static void killProcess(Context context, ProcessInfo processInfo)
+    {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        am.killBackgroundProcesses(processInfo.packageName);
     }
 }

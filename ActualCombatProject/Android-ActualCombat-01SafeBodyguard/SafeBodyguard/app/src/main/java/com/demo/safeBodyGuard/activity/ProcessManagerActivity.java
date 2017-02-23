@@ -1,6 +1,8 @@
 package com.demo.safeBodyGuard.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
+import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.engine.ProcessInfoProvider;
 import com.demo.safeBodyGuard.engine.model.ProcessInfo;
+import com.demo.safeBodyGuard.utils.SPUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -28,7 +32,6 @@ import java.util.Locale;
 
 public class ProcessManagerActivity extends AppCompatActivity
 {
-
     private TextView tv_process_count;
     private TextView tv_process_memory;
     private ListView lv_process;
@@ -69,7 +72,13 @@ public class ProcessManagerActivity extends AppCompatActivity
                 v -> mHandler.sendEmptyMessage(HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL));
 
         findViewById(R.id.activity_process_btn_select_anti).setOnClickListener(
-                v -> mHandler.sendEmptyMessage(HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL_CLEAR));
+                v -> mHandler.sendEmptyMessage(HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL_ANTI));
+
+        findViewById(R.id.activity_process_btn_one_key_clear).setOnClickListener(
+                v -> mHandler.sendEmptyMessage(HandlerProtocol.ON_PROCESS_BTN_CLICK_CLEAR));
+
+        findViewById(R.id.activity_process_btn_setting).setOnClickListener(
+                v -> mHandler.sendEmptyMessage(HandlerProtocol.ON_PROCESS_BTN_CLICK_SETTING));
     }
 
     private void initData()
@@ -81,37 +90,74 @@ public class ProcessManagerActivity extends AppCompatActivity
         double availMemoryGB = ((double) availMemoryByte) / 1024 / 1024 / 1024;
         double totalMemoryGB = ((double) totalMemoryByte) / 1024 / 1024 / 1024;
 
-        tv_process_memory.setText(
-                String.format(Locale.CHINESE, "%.2fG(可用)/%.2fG(總共)", availMemoryGB, totalMemoryGB));
+        ProcessHandler processHandler = (ProcessHandler) mHandler;
+        processHandler.setAvailMemoryByte(availMemoryByte);
+        processHandler.setTotalMemoryByte(totalMemoryByte);
+
+        setMemoryDisplay(availMemoryGB, totalMemoryGB);
 
         new Thread(() -> {
 
             List<ProcessInfo> mProcessInfoList = ProcessInfoProvider.getProcessInfo(this);
-            Message msg = Message.obtain();
-            msg.obj = mProcessInfoList;
-            msg.what = HandlerProtocol.ON_PROCESS_INFO_LOADED;
-            msg.setTarget(mHandler);
-            msg.sendToTarget();
+            sendMsgToCurrentHandler(HandlerProtocol.ON_PROCESS_INFO_LOADED, mProcessInfoList);
 
         }).start();
     }
 
+    public void setMemoryDisplay(double availMemoryGB, double totalMemoryGB)
+    {
+        tv_process_memory.setText(
+                String.format(Locale.CHINESE, "%.2fG(可用)/%.2fG(總共)", availMemoryGB, totalMemoryGB));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode)
+        {
+            case ProcessManagerSettingActivity.REQUEST_CODE_SETUP:
+                sendEmptyMsgToCurrentHandler(HandlerProtocol.ON_SETTING_SETUP);
+                break;
+        }
+    }
+
+    private void sendEmptyMsgToCurrentHandler(int what)
+    {
+        sendMsgToCurrentHandler(what, null);
+    }
+
+
+    private void sendMsgToCurrentHandler(int what, Object obj)
+    {
+        Message msg = Message.obtain();
+        msg.obj = obj;
+        msg.what = what;
+        msg.setTarget(mHandler);
+        msg.sendToTarget();
+    }
 
     /**
      * Process Activity Handler
      */
     static class ProcessHandler extends Handler
     {
+        private long mAvailMemoryByte;
+
+        private long mTotalMemoryByte;
+
+        private boolean iShowSysProcess = true;
+
         private WeakReference<Context> mWeakCtxRef;
 
         private List<ProcessInfo> mCommonProcessInfoList;
 
         private List<ProcessInfo> mSystemProcessInfoList;
 
-        private List<ProcessInfo>  mProcessInfoList;
+        private List<ProcessInfo> mProcessInfoList;
+
         private ProcessInfoAdapter mProcessInfoAdapter;
 
-        public ProcessHandler(Context context)
+        ProcessHandler(Context context)
         {
             mWeakCtxRef = new WeakReference<>(context);
         }
@@ -121,39 +167,127 @@ public class ProcessManagerActivity extends AppCompatActivity
         {
             switch (msg.what)
             {
+                // 運行中進程資料抓取完畢
                 case HandlerProtocol.ON_PROCESS_INFO_LOADED:
                     handleProcessListLoaded(msg);
                     break;
 
+                // 一般進程&系統進程區分完畢
                 case HandlerProtocol.ON_PROCESS_INFO_SPLIT:
                     handleProcessInfoSplited();
                     break;
 
+                // 點擊全選按鈕
                 case HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL:
                     handleProcessBtnClickAll();
                     break;
 
-                case HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL_CLEAR:
-                    handleProcessBtnClickAllClear();
+                // 點擊反選按鈕
+                case HandlerProtocol.ON_PROCESS_BTN_CLICK_ALL_ANTI:
+                    handleProcessBtnClickAllAnti();
+                    break;
+
+                // 點擊清除按鈕
+                case HandlerProtocol.ON_PROCESS_BTN_CLICK_CLEAR:
+                    handleProcessBtnClickClear();
+                    break;
+
+                // 點擊設定按鈕
+                case HandlerProtocol.ON_PROCESS_BTN_CLICK_SETTING:
+                    handleProcessBtnClickSetting();
+                    break;
+
+                // 點擊設定按鈕
+                case HandlerProtocol.ON_SETTING_SETUP:
+                    handleSettingSetUp();
                     break;
             }
 
         }
 
-        private void handleProcessBtnClickAllClear()
+        /**
+         * 取得持久化存儲的的isShowSysProcess,並且放到Adapter中.
+         */
+        private void syncIsShowSysProcess()
         {
+            iShowSysProcess = SPUtil.getBool(mWeakCtxRef.get(),
+                                             Config.SP_KEY_BOOL_PROCESS_MANAGER_ACT_SYSTEM_SHOW,
+                                             true);
+
+            mProcessInfoAdapter.setIShowSysProcess(iShowSysProcess);
+        }
+
+        private void handleSettingSetUp()
+        {
+            syncIsShowSysProcess();
+            mProcessInfoAdapter.notifyDataSetChanged();
+        }
+
+        private void handleProcessBtnClickSetting()
+        {
+            ((Activity) mWeakCtxRef.get()).startActivityForResult(
+                    new Intent(mWeakCtxRef.get(), ProcessManagerSettingActivity.class),
+                    ProcessManagerSettingActivity.REQUEST_CODE_SETUP);
+        }
+
+        private void handleProcessBtnClickClear()
+        {
+            List<ProcessInfo> killingProcessList = new ArrayList<>();
+
             for (ProcessInfo info : mProcessInfoList)
             {
                 if (info.isChecked)
-                    info.isChecked = false;
+                {
+                    killingProcessList.add(info);
+                }
+            }
+
+            long releaseMemory = 0;
+            List<ProcessInfo> temp;
+
+            for (ProcessInfo info : killingProcessList)
+            {
+                temp = mCommonProcessInfoList.contains(info) ? mCommonProcessInfoList :
+                       mSystemProcessInfoList;
+
+                temp.remove(info);
+                releaseMemory += info.privateDirty;
+                ProcessInfoProvider.killProcess(mWeakCtxRef.get(), info);
+            }
+
+            mAvailMemoryByte += releaseMemory;
+
+            ((ProcessManagerActivity) mWeakCtxRef.get())
+                    .setMemoryDisplay(((double) mAvailMemoryByte) / 1024 / 1024 / 1024,
+                                      ((double) mTotalMemoryByte) / 1024 / 1024 / 1024);
+
+            mProcessInfoAdapter.notifyDataSetChanged();
+
+        }
+
+        private void handleProcessBtnClickAllAnti()
+        {
+            String currentPackageName = mWeakCtxRef.get().getPackageName();
+
+            for (ProcessInfo info : mProcessInfoList)
+            {
+                if (info.packageName.equals(currentPackageName))
+                    continue;
+
+                info.isChecked = !info.isChecked;
             }
             mProcessInfoAdapter.notifyDataSetChanged();
         }
 
         private void handleProcessBtnClickAll()
         {
+            String currentPackageName = mWeakCtxRef.get().getPackageName();
+
             for (ProcessInfo info : mProcessInfoList)
             {
+                if (info.packageName.equals(currentPackageName))
+                    continue;
+
                 if (!info.isChecked)
                     info.isChecked = true;
             }
@@ -169,6 +303,8 @@ public class ProcessManagerActivity extends AppCompatActivity
             mProcessInfoAdapter = new ProcessInfoAdapter(processManagerActivity, mProcessInfoList,
                                                          mCommonProcessInfoList,
                                                          mSystemProcessInfoList);
+
+            syncIsShowSysProcess();
 
             processManagerActivity.getProcessListView().setAdapter(mProcessInfoAdapter);
 
@@ -188,6 +324,12 @@ public class ProcessManagerActivity extends AppCompatActivity
             processSplitOnNewThread(msg, mProcessInfoList);
         }
 
+        /**
+         * 在子執行緒中執行分隔系統與一般的ProcessInfo
+         *
+         * @param msg
+         * @param processInfoList
+         */
         private void processSplitOnNewThread(Message msg, List<ProcessInfo> processInfoList)
         {
             new Thread(() -> {
@@ -217,6 +359,26 @@ public class ProcessManagerActivity extends AppCompatActivity
                 temp.add(info);
             }
         }
+
+        public long getAvailMemoryByte()
+        {
+            return mAvailMemoryByte;
+        }
+
+        public void setAvailMemoryByte(long availMemoryByte)
+        {
+            this.mAvailMemoryByte = availMemoryByte;
+        }
+
+        public long getTotalMemoryByte()
+        {
+            return mTotalMemoryByte;
+        }
+
+        public void setTotalMemoryByte(long totalMemoryByte)
+        {
+            this.mTotalMemoryByte = totalMemoryByte;
+        }
     }
 
 
@@ -229,6 +391,7 @@ public class ProcessManagerActivity extends AppCompatActivity
 
         static final int VIEW_TYPE_INFO = 1;
 
+        private boolean mIShowSysProcess;
 
         private WeakReference<Context> mWeakCtxRef;
 
@@ -270,7 +433,8 @@ public class ProcessManagerActivity extends AppCompatActivity
         public int getCount()
         {
             Log.d("debug", "getCount");
-            return mProcessInfoList.size() + 2;
+            return isIShowSysProcess() ? mProcessInfoList.size() + 2 :
+                   mCommonProcessInfoList.size() + 1;
         }
 
         @Override
@@ -282,6 +446,9 @@ public class ProcessManagerActivity extends AppCompatActivity
                 return "一般應用(" + mCommonProcessInfoList.size() + ")";
             if (position == mCommonProcessInfoList.size() + 1)
                 return "系統應用(" + mSystemProcessInfoList.size() + ")";
+
+            if (mCommonProcessInfoList.size() == 0 || mSystemProcessInfoList.size() == 0)
+                return "";
 
             if (position < mCommonProcessInfoList.size() + 1)
                 return mCommonProcessInfoList.get(position - 1);
@@ -401,19 +568,34 @@ public class ProcessManagerActivity extends AppCompatActivity
             return convertView;
         }
 
+        public boolean isIShowSysProcess()
+        {
+            return mIShowSysProcess;
+        }
+
+        public void setIShowSysProcess(boolean mIShowSysProcess)
+        {
+            this.mIShowSysProcess = mIShowSysProcess;
+        }
+
+        /**
+         * TitleViewHolder
+         */
         class TitleViewHolder
         {
             TextView tvTitle;
         }
 
+
+        /**
+         * InfoViewHolder
+         */
         class InfoViewHolder
         {
             ImageView tv_icon;
             TextView  tv_app_name;
             TextView  tv_memory_info;
             CheckBox  cb_box;
-
-            View.OnClickListener onClickListener;
         }
     }
 

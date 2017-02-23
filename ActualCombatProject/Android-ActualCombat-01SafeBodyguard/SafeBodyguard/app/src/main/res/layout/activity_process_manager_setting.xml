@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_process_manager_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.demo.safeBodyGuard.activity.ProcessManagerSettingActivity">
+
+    <CheckBox
+        android:id="@+id/activity_process_manager_cb_display_process"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="顯示系統進程"/>
+
+    <CheckBox
+        android:id="@+id/activity_process_manager_cb_kill_bg_process"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="螢幕鎖定時清理進程"/>
+
+</LinearLayout>
