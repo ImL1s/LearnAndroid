@@ -1,6 +1,8 @@
 package com.demo.safeBodyGuard.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.widget.TextView;
@@ -46,6 +48,7 @@ public class SplashActivity extends BaseActivity
         //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         initData();
+        createIcon();
         initDatabase();
         checkUpdate();
     }
@@ -264,5 +267,29 @@ public class SplashActivity extends BaseActivity
         Message msg = Message.obtain();
         msg.what = HandlerProtocol.ENTER_HOME;
         handler.sendMessageDelayed(msg, Config.SPLASH_MIN_INTERVAL_MS);
+    }
+
+    private void createIcon()
+    {
+        boolean isCreated =
+                SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_CREATED_ICON, false);
+
+        if (!isCreated)
+        {
+            Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+            intent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
+                            BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "安全衛士");
+
+            Intent iconIntent = new Intent();
+            iconIntent.addCategory("android.intent.category.DEFAULT");
+            iconIntent.setAction("android.intent.action.HOME");
+
+            intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, iconIntent);
+
+            sendBroadcast(intent);
+
+            SPUtil.setBool(getApplicationContext(), Config.SP_KEY_BOOL_CREATED_ICON, true);
+        }
     }
 }

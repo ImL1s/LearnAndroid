@@ -1,13 +1,16 @@
 package com.demo.safeBodyGuard.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.service.BlackListService;
+import com.demo.safeBodyGuard.service.ScreenLockCleanProcessService;
 import com.demo.safeBodyGuard.utils.SPUtil;
 import com.demo.safeBodyGuard.utils.ServiceUtil;
 
@@ -42,19 +45,36 @@ public class ProcessManagerSettingActivity extends AppCompatActivity
         mCb_show_sys_process.setChecked(
                 SPUtil.getBool(this, Config.SP_KEY_BOOL_PROCESS_MANAGER_ACT_SYSTEM_SHOW, true));
 
-        mCb_lock_kill_process
-                .setChecked(ServiceUtil.isRunning(BlackListService.class.getCanonicalName(), this));
+        String serviceName = ScreenLockCleanProcessService.class.getCanonicalName();
+
+        mCb_lock_kill_process.setChecked(ServiceUtil.isRunning(serviceName, this));
     }
 
     protected void setListener()
     {
 
-        mCb_show_sys_process.setOnCheckedChangeListener((btnView, isChecked) -> SPUtil
+        mCb_show_sys_process.setOnCheckedChangeListener((view, isChecked) -> SPUtil
                 .setBool(ProcessManagerSettingActivity.this,
                          Config.SP_KEY_BOOL_PROCESS_MANAGER_ACT_SYSTEM_SHOW, isChecked));
 
-        mCb_lock_kill_process.setOnCheckedChangeListener((a, b) -> {
+        mCb_lock_kill_process.setOnCheckedChangeListener((view, isChecked) -> {
 
+            boolean isRunning =
+                    ServiceUtil.isRunning(ScreenLockCleanProcessService.class.getCanonicalName(),ProcessManagerSettingActivity.this);
+
+
+            if (isChecked && !isRunning)
+            {
+                Log.d("debug","start service");
+                startService(
+                        new Intent(getApplicationContext(), ScreenLockCleanProcessService.class));
+            }
+            else if (isRunning)
+            {
+                Log.d("debug","stop service");
+                stopService(
+                        new Intent(getApplicationContext(), ScreenLockCleanProcessService.class));
+            }
         });
     }
 }

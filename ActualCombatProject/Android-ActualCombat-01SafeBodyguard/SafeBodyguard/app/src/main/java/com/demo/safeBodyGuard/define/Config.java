@@ -19,8 +19,8 @@ public class Config
     //endregion
 
     //region activity result code
-    public static final int ACTIVITY_RESULT_CODE_NOTHING                = 0x1;
-    public static final int ACTIVITY_RESULT_CODE_CONTACT_SELECTED       = 0x2;
+    public static final int ACTIVITY_RESULT_CODE_NOTHING          = 0x1;
+    public static final int ACTIVITY_RESULT_CODE_CONTACT_SELECTED = 0x2;
 
 
     //endregion
@@ -53,6 +53,8 @@ public class Config
 
     public static final String SP_KEY_BOOL_PROCESS_MANAGER_ACT_SYSTEM_SHOW =
             "sp_key_bool_process_manager_act_system_show";
+
+    public static final String SP_KEY_BOOL_CREATED_ICON = "sp_key_bool_created_icon";
 
     /**
      * 來電漂浮查詢視窗的X位置

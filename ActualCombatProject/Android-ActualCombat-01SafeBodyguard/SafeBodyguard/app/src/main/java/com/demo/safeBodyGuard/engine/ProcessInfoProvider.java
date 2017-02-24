@@ -171,6 +171,7 @@ public class ProcessInfoProvider
 
     /**
      * 殺死進程
+     *
      * @param context
      * @param processInfo
      */
@@ -179,5 +180,24 @@ public class ProcessInfoProvider
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
         am.killBackgroundProcesses(processInfo.packageName);
+    }
+
+    /**
+     * 殺死除了當前context所在以外的進程
+     * @param context
+     */
+    public static void killAllProcess(Context context)
+    {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+
+        for (ActivityManager.RunningAppProcessInfo info : processInfos)
+        {
+            if (info.processName.equals(context.getPackageName()))
+                continue;
+
+            am.killBackgroundProcesses(info.processName);
+        }
     }
 }
