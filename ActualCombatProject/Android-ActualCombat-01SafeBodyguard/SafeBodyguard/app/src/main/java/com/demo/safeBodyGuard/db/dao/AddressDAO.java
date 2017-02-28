@@ -23,6 +23,11 @@ public class AddressDAO
         DB_CHINA_PATH = path;
     }
 
+    /**
+     * 查詢電話號碼所在地.
+     * @param phone
+     * @return 電話號碼所在地.
+     */
     public static String getAddress(String phone)
     {
 

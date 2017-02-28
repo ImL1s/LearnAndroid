@@ -86,6 +86,8 @@ public class Config
     public static final String DB_COLUMN_DATA_CONTACT_MIME_TYPE = "mimetype";
 
     public static final String DB_FILE_NAME_ADDRESS = "address.db";
+
+    public static final String DB_FILE_NAME_COMMON_PHONE = "commonnum.db";
     //endregion
 
 

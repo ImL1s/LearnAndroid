@@ -1,7 +1,6 @@
 package com.demo.safeBodyGuard.activity;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
@@ -9,11 +8,13 @@ import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.db.dao.AddressDAO;
+import com.demo.safeBodyGuard.db.dao.CommonPhoneDAO;
 import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.handler.SplashHandler;
 import com.demo.safeBodyGuard.model.VersionBean;
+import com.demo.safeBodyGuard.utils.DbUtil;
 import com.demo.safeBodyGuard.utils.JsonUtil;
 import com.demo.safeBodyGuard.utils.LogUtil;
 import com.demo.safeBodyGuard.utils.PackageUtil;
@@ -27,10 +28,6 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Created by iml1s-macpro on 2016/12/28.
@@ -85,43 +82,53 @@ public class SplashActivity extends BaseActivity
         File dbFile = new File(dbDir, Config.DB_FILE_NAME_ADDRESS);
         AddressDAO.setDBPath(dbFile.getAbsolutePath());
 
-        if (dbFile.exists())
-            return;
+        DbUtil.copyDbToDbFolder(this, dbFile, Config.DB_FILE_NAME_ADDRESS);
 
-        InputStream is = null;
-        OutputStream os = null;
+        dbFile = new File(dbDir,Config.DB_FILE_NAME_COMMON_PHONE);
+        CommonPhoneDAO.setDBPath(dbFile.getAbsolutePath());
 
-        try
-        {
-            is = getAssets().open(Config.DB_FILE_NAME_ADDRESS);
-            os = new FileOutputStream(dbFile);
-
-            byte[] buffer = new byte[Config.IO_BUFFER_SIZE];
-            int haveRead;
-
-            while ((haveRead = is.read(buffer)) != -1)
-            {
-                os.write(buffer, 0, haveRead);
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                if (is != null)
-                    is.close();
-                if (os != null)
-                    os.close();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        DbUtil.copyDbToDbFolder(this, dbFile, Config.DB_FILE_NAME_COMMON_PHONE);
+        //        File dbDir = getFilesDir();
+        //        File dbFile = new File(dbDir, Config.DB_FILE_NAME_ADDRESS);
+        //        AddressDAO.setDBPath(dbFile.getAbsolutePath());
+        //
+        //        if (dbFile.exists())
+        //            return;
+        //
+        //        InputStream is = null;
+        //        OutputStream os = null;
+        //
+        //        try
+        //        {
+        //            is = getAssets().open(Config.DB_FILE_NAME_ADDRESS);
+        //            os = new FileOutputStream(dbFile);
+        //
+        //            byte[] buffer = new byte[Config.IO_BUFFER_SIZE];
+        //            int haveRead;
+        //
+        //            while ((haveRead = is.read(buffer)) != -1)
+        //            {
+        //                os.write(buffer, 0, haveRead);
+        //            }
+        //        }
+        //        catch (IOException e)
+        //        {
+        //            e.printStackTrace();
+        //        }
+        //        finally
+        //        {
+        //            try
+        //            {
+        //                if (is != null)
+        //                    is.close();
+        //                if (os != null)
+        //                    os.close();
+        //            }
+        //            catch (IOException e)
+        //            {
+        //                e.printStackTrace();
+        //            }
+        //        }
     }
 
     private void checkUpdate()

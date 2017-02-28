@@ -33,7 +33,22 @@
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:background="@drawable/selector_next_btn_bg"
-        android:drawableLeft="@android:drawable/ic_menu_mylocation"
+        android:drawableLeft="@android:drawable/ic_input_add"
+        android:drawablePadding="5dp"
+        android:clickable="true"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/activity_a_tool_tv_common_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="常用電話"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/selector_next_btn_bg"
+        android:drawableLeft="@android:drawable/ic_menu_view"
         android:drawablePadding="5dp"
         android:clickable="true"
         android:onClick="onClick"/>

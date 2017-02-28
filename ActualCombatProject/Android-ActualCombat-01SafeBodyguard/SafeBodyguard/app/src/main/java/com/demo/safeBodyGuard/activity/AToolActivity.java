@@ -61,6 +61,10 @@ public class AToolActivity extends BaseActivity implements View.OnClickListener
             case R.id.activity_a_tool_tv_sms_backup:
                 backupSms();
                 break;
+
+            case R.id.activity_a_tool_tv_common_phone:
+                startActivityEasy(CommonPhoneActivity.class);
+                break;
         }
     }
 
