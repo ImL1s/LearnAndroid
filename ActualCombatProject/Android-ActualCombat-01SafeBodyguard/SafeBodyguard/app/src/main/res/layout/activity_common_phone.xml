@@ -5,13 +5,10 @@
     android:id="@+id/activity_common_phone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.demo.safeBodyGuard.activity.CommonPhoneActivity">
 
     <ExpandableListView
+        android:id="@+id/activity_common_phone_ep_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
