@@ -31,20 +31,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.HOME"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.SecurityActivity"/>
         <activity android:name=".activity.SecuritySetup1Activity"/>
@@ -61,6 +62,7 @@
         <activity android:name=".activity.AppManagerActivity"/>
         <activity android:name=".activity.ProcessManagerActivity"/>
         <activity android:name=".activity.ProcessManagerSettingActivity"/>
+        <activity android:name=".activity.CommonPhoneActivity"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
@@ -69,11 +71,13 @@
                 <action android:name="android.intent.action.REBOOT"/>
             </intent-filter>
         </receiver>
+
         <receiver android:name=".receiver.SmsReceiver">
             <intent-filter android:priority="999999999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".receiver.SafeGuardDeviceAdminReceiver"
             android:description="@string/btn_pre"
@@ -97,6 +101,12 @@
                 android:resource="@xml/widget_process_info"/>
         </receiver>
 
+        <receiver android:name=".receiver.KillProcessReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.KILL_BACKGROUND_PROCESS"/>
+            </intent-filter>
+        </receiver>
+
         <service android:name=".service.SafeGuardLocationService"/>
         <service android:name=".service.PhoneAddressService"/>
         <service
@@ -104,9 +114,9 @@
             android:enabled="true"
             android:exported="true"/>
         <service android:name=".service.ScreenLockCleanProcessService"/>
+        <service android:name=".service.ProcessWidgetService"/>
 
-        <activity android:name=".activity.CommonPhoneActivity">
-        </activity>
+
     </application>
 
 </manifest>

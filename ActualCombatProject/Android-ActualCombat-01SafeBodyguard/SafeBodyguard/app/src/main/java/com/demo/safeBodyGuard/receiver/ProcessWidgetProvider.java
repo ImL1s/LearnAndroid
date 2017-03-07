@@ -55,6 +55,7 @@ public class ProcessWidgetProvider extends AppWidgetProvider
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
     {
         Log.d("debug", "onUpdate");
+        context.startService(new Intent(context, ProcessWidgetService.class));
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 

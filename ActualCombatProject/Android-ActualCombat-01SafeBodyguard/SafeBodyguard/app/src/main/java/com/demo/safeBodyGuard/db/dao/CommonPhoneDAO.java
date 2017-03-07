@@ -32,7 +32,7 @@ public class CommonPhoneDAO
             PhoneClass phoneClass = new PhoneClass();
             phoneClass.servicesType = cursor.getString(0);
             phoneClass.idx = cursor.getInt(1);
-            phoneClass.phoneItems = getPhoneItme(phoneClass.idx);
+            phoneClass.phoneItems = getPhoneItem(phoneClass.idx);
             phoneClassList.add(phoneClass);
         }
 
@@ -41,7 +41,7 @@ public class CommonPhoneDAO
         return phoneClassList;
     }
 
-    public static List<PhoneItem> getPhoneItme(int group)
+    public static List<PhoneItem> getPhoneItem(int group)
     {
         SQLiteDatabase db =
                 SQLiteDatabase.openDatabase(mDBPath, null, SQLiteDatabase.OPEN_READONLY);

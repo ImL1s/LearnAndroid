@@ -1,6 +1,10 @@
 package com.demo.safeBodyGuard.receiver;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+import com.demo.safeBodyGuard.engine.ProcessInfoProvider;
 
 
 /**
@@ -10,4 +14,10 @@ import android.content.BroadcastReceiver;
  */
 
 public class KillProcessReceiver extends BroadcastReceiver
-{}
+{
+    @Override
+    public void onReceive(Context context, Intent intent)
+    {
+        ProcessInfoProvider.killAllProcess(context);
+    }
+}
