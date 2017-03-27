@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.demo.safeBodyGuard.db.BlackListOpenHelper;
+import com.demo.safeBodyGuard.db.helper.BlackListOpenHelper;
 import com.demo.safeBodyGuard.db.dao.model.BlackRoll;
 
 import java.util.ArrayList;

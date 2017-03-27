@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_left_default"
+            android:text="已加鎖"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/tab_right_default"
+            android:text="未加鎖"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <TextView
+        android:text="已加鎖應用:50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
+
+</LinearLayout>

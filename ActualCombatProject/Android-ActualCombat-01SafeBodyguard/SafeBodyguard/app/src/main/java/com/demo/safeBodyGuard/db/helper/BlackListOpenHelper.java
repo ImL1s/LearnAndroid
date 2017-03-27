@@ -1,4 +1,4 @@
-package com.demo.safeBodyGuard.db;
+package com.demo.safeBodyGuard.db.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
