@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.Observable;
+
 public class AppManagerActivity extends AppCompatActivity
 {
     private ListView      mListView;
