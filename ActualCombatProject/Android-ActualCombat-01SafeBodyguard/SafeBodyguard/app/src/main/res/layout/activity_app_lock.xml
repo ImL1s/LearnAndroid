@@ -11,25 +11,27 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_lock_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/tab_left_default"
+            android:background="@drawable/tab_left_pressed"
             android:text="已加鎖"
             android:textColor="@color/white"/>
 
         <Button
+            android:id="@+id/btn_unlock_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:background="@drawable/tab_right_default"
             android:text="未加鎖"
             android:textColor="@color/white"/>
     </LinearLayout>
 
     <TextView
-        android:text="已加鎖應用:50"
+        android:id="@+id/tv_app_count"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="已加鎖應用:50"/>
 
     <ListView
         android:id="@+id/lv_app"

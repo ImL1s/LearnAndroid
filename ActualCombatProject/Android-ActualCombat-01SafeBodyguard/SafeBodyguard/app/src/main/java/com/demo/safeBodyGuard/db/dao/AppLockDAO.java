@@ -1,9 +1,11 @@
 package com.demo.safeBodyGuard.db.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.demo.safeBodyGuard.db.dao.model.AppLockInfo;
 import com.demo.safeBodyGuard.db.helper.AppLockOpenHelper;
 
 import java.util.ArrayList;
@@ -13,20 +15,17 @@ import java.util.List;
  * Created by iml1s on 2017/3/27.
  */
 
-public class AppLockDAO
-{
+public class AppLockDAO {
     private static final Object LOCK = new Object();
     private static AppLockDAO mInstance;
 
-    private final Context           mContext;
+    private final Context mContext;
     private final AppLockOpenHelper mAppLockOpenHelper;
+    private final String tb_appLock = "appLock";
 
-    public static AppLockDAO getInstance(Context context)
-    {
-        synchronized (LOCK)
-        {
-            if(mInstance == null)
-            {
+    public static AppLockDAO getInstance(Context context) {
+        synchronized (LOCK) {
+            if (mInstance == null) {
                 mInstance = new AppLockDAO(context);
             }
 
@@ -34,23 +33,19 @@ public class AppLockDAO
         }
     }
 
-    public AppLockDAO(Context context)
-    {
+    public AppLockDAO(Context context) {
         mContext = context;
         mAppLockOpenHelper = new AppLockOpenHelper(mContext);
     }
 
-    public List<AppLockInfo> selectAll()
-    {
+    public List<AppLockInfo> selectAll() {
         SQLiteDatabase db = mAppLockOpenHelper.getReadableDatabase();
-        Cursor cursor = db.query("appLock", new String[]{"_id", "pkg"}, null, null, null, null, null);
+        Cursor cursor = db.query(tb_appLock, new String[]{"_id", "pkg"}, null, null, null, null, null);
 
         List<AppLockInfo> appLockInfoList = new ArrayList<>();
 
-        if (cursor.getCount() > 0)
-        {
-            while (cursor.moveToNext())
-            {
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
                 appLockInfoList.add(new AppLockInfo(cursor.getInt(0), cursor.getString(1)));
             }
         }
@@ -60,8 +55,21 @@ public class AppLockDAO
         return appLockInfoList;
     }
 
-    public Object select(int id)
-    {
+    public void insert(String pkgName){
+        SQLiteDatabase db = mAppLockOpenHelper.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("pkg",pkgName);
+
+        db.insert(tb_appLock,null,contentValues);
+    }
+
+    public void delete(String pkgName) {
+        SQLiteDatabase db = mAppLockOpenHelper.getReadableDatabase();
+        db.delete(tb_appLock,"pkg = ?",new String[]{pkgName});
+        db.close();
+    }
+
+    public Object select(int id) {
         return null;
     }
 }

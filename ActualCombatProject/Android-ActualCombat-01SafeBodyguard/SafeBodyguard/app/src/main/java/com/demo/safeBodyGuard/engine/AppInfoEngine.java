@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.demo.safeBodyGuard.db.dao.AppLockInfo;
 import com.demo.safeBodyGuard.db.dao.model.AppInfo;
 
 import java.util.ArrayList;

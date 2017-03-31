@@ -1,4 +1,4 @@
-package com.demo.safeBodyGuard.db.dao;
+package com.demo.safeBodyGuard.db.dao.model;
 
 /**
  * Created by iml1s on 2017/3/27.

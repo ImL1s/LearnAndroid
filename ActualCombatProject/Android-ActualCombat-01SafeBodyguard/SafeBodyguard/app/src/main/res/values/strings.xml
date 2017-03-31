@@ -23,4 +23,6 @@
     <string name="select_anti">反選</string>
     <string name="one_key_clear">一鍵清理</string>
     <string name="setting">設定</string>
+    <string name="lock_app_count">已加鎖應用:</string>
+    <string name="unlock_app_count">未加鎖應用:</string>
 </resources>
