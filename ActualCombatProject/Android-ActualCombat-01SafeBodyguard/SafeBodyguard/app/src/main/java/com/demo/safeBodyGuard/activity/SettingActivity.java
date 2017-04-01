@@ -15,6 +15,7 @@ import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
 import com.demo.safeBodyGuard.model.SettingItemInfo;
 import com.demo.safeBodyGuard.receiver.SafeGuardDeviceAdminReceiver;
+import com.demo.safeBodyGuard.service.AppLockService;
 import com.demo.safeBodyGuard.service.BlackListService;
 import com.demo.safeBodyGuard.service.PhoneAddressService;
 import com.demo.safeBodyGuard.utils.SPUtil;
@@ -35,8 +36,7 @@ import java.util.ArrayList;
  */
 
 @ContentView(R.layout.activity_setting)
-public class SettingActivity extends BaseActivity
-{
+public class SettingActivity extends BaseActivity {
 
     private SettingTableView settingTableView = null;
 
@@ -46,8 +46,7 @@ public class SettingActivity extends BaseActivity
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         cName = new ComponentName(getApplication(), SafeGuardDeviceAdminReceiver.class);
@@ -65,27 +64,24 @@ public class SettingActivity extends BaseActivity
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
         refreshUI();
     }
 
     @Override
-    public IActivityHandler initHandler()
-    {
+    public IActivityHandler initHandler() {
         return null;
     }
 
 
-    private void refreshUI()
-    {
+    private void refreshUI() {
         boolean isPhoneAddressServiceRunning = ServiceUtil
                 .isRunning(PhoneAddressService.class.getCanonicalName(), getApplicationContext());
         int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(),
-                                             Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
-                                             0);
+                Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
+                0);
 
         getSettingItemCheckBoxView(0).setCheckedAndText(
                 SPUtil.getBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE, false));
@@ -100,19 +96,16 @@ public class SettingActivity extends BaseActivity
 
     }
 
-    private void initSettingTableView()
-    {
+    private void initSettingTableView() {
         settingTableView = (SettingTableView) (findViewById(R.id.tv_setting));
 
-        settingTableView.setAdapter(new SettingTableAdapter()
-        {
+        settingTableView.setAdapter(new SettingTableAdapter() {
             @Override
-            public SettingItemInfo[] getItemInfoArray()
-            {
+            public SettingItemInfo[] getItemInfoArray() {
                 ArrayList<SettingItemInfo> list = new ArrayList<>();
                 int phoneAddrBgIndex = SPUtil.getInt(getApplicationContext(),
-                                                     Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
-                                                     0);
+                        Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
+                        0);
 
                 list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟", "自動更新已關閉"));
                 list.add(new SettingItemInfo("啟動設備管理員權限", "設備管理員權限已開啟", "設備管理員權限已關閉"));
@@ -124,9 +117,10 @@ public class SettingActivity extends BaseActivity
                         R.string.activity_setting_phone_address_service_open), getString(
                         R.string.activity_setting_phone_address_service_off)));
                 list.add(new SettingItemInfo("懸浮窗體背景顏色",
-                                             Config.DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG[phoneAddrBgIndex]));
+                        Config.DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG[phoneAddrBgIndex]));
                 list.add(new SettingItemInfo("設定漂浮視窗位置", ""));
                 list.add(new SettingItemInfo("黑名單功能", "已開啟黑名單功能", "已關閉黑名單功能"));
+                list.add(new SettingItemInfo("啟動看門狗", "已啟動","未啟動"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
                 //                list.add(new SettingItemInfo("自動更新設定", "自動更新已開啟","自動更新已關閉"));
@@ -143,8 +137,7 @@ public class SettingActivity extends BaseActivity
 
             AbsSettingItemView itemView = (AbsSettingItemView) view;
 
-            switch (position)
-            {
+            switch (position) {
                 case 0:
                     setUpdate((SettingItemCheckBoxView) itemView);
                     break;
@@ -186,18 +179,21 @@ public class SettingActivity extends BaseActivity
                 case 9:
                     setBlackListSwitch((SettingItemCheckBoxView) view);
                     break;
+
+                case 10:
+                    Intent intent = new Intent(this, AppLockService.class);
+                    startService(intent);
+                    break;
             }
 
             refreshUI();
         });
     }
 
-    private void setBlackListSwitch(SettingItemCheckBoxView checkBoxView)
-    {
+    private void setBlackListSwitch(SettingItemCheckBoxView checkBoxView) {
         Intent intent = new Intent(getApplicationContext(), BlackListService.class);
 
-        if (checkBoxView.isChecked())
-        {
+        if (checkBoxView.isChecked()) {
             startService(intent);
             return;
         }
@@ -205,21 +201,19 @@ public class SettingActivity extends BaseActivity
         stopService(intent);
     }
 
-    private void setFlowPhoneAddrViewPos()
-    {
+    private void setFlowPhoneAddrViewPos() {
         startActivityEasy(PhoneAddressPosSettingActivity.class);
     }
 
-    private void setFlowPhoneAddrBg()
-    {
+    private void setFlowPhoneAddrBg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setSingleChoiceItems(Config.DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG,
-                                     SPUtil.getInt(this,
-                                                   Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
-                                                   0), (dialog, which) -> {
+                SPUtil.getInt(this,
+                        Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
+                        0), (dialog, which) -> {
                     SPUtil.setInt(this, Config.SP_KEY_INT_PHONE_ADDRESS_VIEW_BACKGROUND_INDEX,
-                                  which);
+                            which);
                     dialog.dismiss();
                 });
 
@@ -238,73 +232,58 @@ public class SettingActivity extends BaseActivity
      *
      * @param view 被點擊的ItemView
      */
-    private void setFlowPhoneAddrView(SettingItemCheckBoxView view)
-    {
+    private void setFlowPhoneAddrView(SettingItemCheckBoxView view) {
         Intent serviceIntent = new Intent(this, PhoneAddressService.class);
 
-        if (view.isChecked())
-        {
+        if (view.isChecked()) {
             startService(serviceIntent);
-        }
-        else
-        {
+        } else {
             stopService(serviceIntent);
         }
     }
 
-    private boolean resetPwd()
-    {
+    private boolean resetPwd() {
         return devicePolicyManager.resetPassword("aaa", 0);
     }
 
-    private void removeAdmin()
-    {
+    private void removeAdmin() {
         devicePolicyManager.removeActiveAdmin(cName);
     }
 
-    private void uninstallTest()
-    {
+    private void uninstallTest() {
         Intent intent2 = new Intent("android.intent.action.DELETE");
         intent2.addCategory("android.intent.category.DEFAULT");
         intent2.setData(Uri.parse("package:" + getPackageName()));
         startActivity(intent2);
     }
 
-    private void lockScreenTest()
-    {
-        if (devicePolicyManager.isAdminActive(cName))
-        {
+    private void lockScreenTest() {
+        if (devicePolicyManager.isAdminActive(cName)) {
             devicePolicyManager.lockNow();
-        }
-        else
-        {
+        } else {
             Toast.makeText(SettingActivity.this, "需要啟動設備管理員權限", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void requestAdmin()
-    {
+    private void requestAdmin() {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cName);
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
-                        "this is QUERY_PHONE_ADDRESS_COMPLETED explanation");
+                "this is QUERY_PHONE_ADDRESS_COMPLETED explanation");
         startActivity(intent);
     }
 
-    private void setUpdate(SettingItemCheckBoxView itemView)
-    {
+    private void setUpdate(SettingItemCheckBoxView itemView) {
         SettingItemCheckBoxView checkBoxView = itemView;
         SPUtil.setBool(getApplicationContext(), Config.SP_KEY_BOOL_UPDATE,
-                       checkBoxView.isChecked());
+                checkBoxView.isChecked());
     }
 
-    private SettingItemCheckBoxView getSettingItemCheckBoxView(int pos)
-    {
+    private SettingItemCheckBoxView getSettingItemCheckBoxView(int pos) {
         return ((SettingItemCheckBoxView) (settingTableView.getItem(pos)));
     }
 
-    private SettingItemArrowsView getSettingItemArrowsView(int pos)
-    {
+    private SettingItemArrowsView getSettingItemArrowsView(int pos) {
         return ((SettingItemArrowsView) (settingTableView.getItem(pos)));
     }
 }

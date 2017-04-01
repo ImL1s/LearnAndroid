@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:name=".SafeBodyguardApplication"
@@ -31,21 +32,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.HOME"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.SecurityActivity"/>
         <activity android:name=".activity.SecuritySetup1Activity"/>
@@ -72,13 +72,11 @@
                 <action android:name="android.intent.action.REBOOT"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".receiver.SmsReceiver">
             <intent-filter android:priority="999999999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receiver.SafeGuardDeviceAdminReceiver"
             android:description="@string/btn_pre"
@@ -92,16 +90,15 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".receiver.ProcessWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_process_info"/>
         </receiver>
-
         <receiver android:name=".receiver.KillProcessReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.KILL_BACKGROUND_PROCESS"/>
@@ -116,8 +113,11 @@
             android:exported="true"/>
         <service android:name=".service.ScreenLockCleanProcessService"/>
         <service android:name=".service.ProcessWidgetService"/>
-
-
+        <service
+            android:name=".service.AppLockService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>
