@@ -34,7 +34,7 @@ import io.reactivex.ObservableOnSubscribe;
  * Created by iml1s on 2017/3/27.
  */
 
-public class AppLockActivity extends Activity {
+public class AppSetLockActivity extends Activity {
     @BindView(R.id.lv_app)
     ListView lv_app;
     @BindView(R.id.tv_app_count)
@@ -134,11 +134,11 @@ public class AppLockActivity extends Activity {
 
 
     static class AppListViewAdapter extends BaseAdapter {
-        private AppLockActivity context;
+        private AppSetLockActivity context;
         private final boolean isLock;
         private List<AppInfo> appInfoList;
 
-        AppListViewAdapter(List<AppInfo> appInfoList, boolean isLock, AppLockActivity context) {
+        AppListViewAdapter(List<AppInfo> appInfoList, boolean isLock, AppSetLockActivity context) {
             this.appInfoList = appInfoList;
             this.isLock = isLock;
             this.context = context;

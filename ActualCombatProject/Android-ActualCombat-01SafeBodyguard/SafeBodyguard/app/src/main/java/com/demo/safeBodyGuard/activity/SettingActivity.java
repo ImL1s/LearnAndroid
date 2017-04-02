@@ -94,6 +94,9 @@ public class SettingActivity extends BaseActivity {
         getSettingItemCheckBoxView(9).setCheckedAndText(ServiceUtil.isRunning(
                 "com.demo.safeBodyGuard.service.BlackListService", getApplicationContext()));
 
+//        getSettingItemCheckBoxView(10).setCheckedAndText(ServiceUtil.isRunning(
+//                "com.demo.safeBodyGuard.service.AppLockService ", getApplicationContext()));
+
     }
 
     private void initSettingTableView() {
@@ -182,7 +185,13 @@ public class SettingActivity extends BaseActivity {
 
                 case 10:
                     Intent intent = new Intent(this, AppLockService.class);
-                    startService(intent);
+                    if(!((SettingItemCheckBoxView) view).isChecked()){
+                        stopService(intent);
+                    }else {
+
+                        startService(intent);
+                    }
+
                     break;
             }
 

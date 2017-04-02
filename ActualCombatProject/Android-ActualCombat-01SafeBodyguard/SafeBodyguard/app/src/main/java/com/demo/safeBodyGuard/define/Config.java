@@ -8,8 +8,7 @@ import java.util.HashMap;
  * Created by iml1s-macpro on 2016/12/30.
  */
 
-public class Config
-{
+public class Config {
     public static final int IO_BUFFER_SIZE = 1024;
 
     public static final int PERMISSION_ALL_REQUEST_CODE = 0x2;
@@ -19,7 +18,7 @@ public class Config
     //endregion
 
     //region activity result code
-    public static final int ACTIVITY_RESULT_CODE_NOTHING          = 0x1;
+    public static final int ACTIVITY_RESULT_CODE_NOTHING = 0x1;
     public static final int ACTIVITY_RESULT_CODE_CONTACT_SELECTED = 0x2;
 
 
@@ -93,6 +92,7 @@ public class Config
 
     //region intent key
     public static final String INTENT_DATA_KEY_PHONE = "phone";
+    public static final String INTENT_KEY_PKG_NAME = "pkgName";
     //endregion
 
     //region sms control key
@@ -116,7 +116,7 @@ public class Config
 
     public static final int[] DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG =
             new int[]{R.drawable.call_locate_blue, R.drawable.call_locate_green,
-                      R.drawable.call_locate_white};
+                    R.drawable.call_locate_white};
 
     public static final String[] DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG =
             new String[]{"藍色", "綠色", "白色"};
@@ -125,15 +125,13 @@ public class Config
     //endregion
 
 
-    static
-    {
+    static {
         DRAWABLE_MAP_NAME_BG_PHONE_QUERY_ADDRESS_VIEW = new HashMap<>();
 
-        for (int i = 0; i < DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG.length; i++)
-        {
+        for (int i = 0; i < DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG.length; i++) {
             DRAWABLE_MAP_NAME_BG_PHONE_QUERY_ADDRESS_VIEW
                     .put(DRAWABLE_NAME_ARRAY_PHONE_QUERY_ADDRESS_VIEW_BG[i],
-                         DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[i]);
+                            DRAWABLE_RESOURCE_ID_ARRAY_PHONE_QUERY_ADDR_VIEW_BG[i]);
         }
     }
 

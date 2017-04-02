@@ -67,7 +67,7 @@ public class AToolActivity extends BaseActivity implements View.OnClickListener
                 break;
 
             case R.id.activity_a_tool_tv_app_lock:
-                startActivityEasy(AppLockActivity.class);
+                startActivityEasy(AppSetLockActivity.class);
                 break;
         }
     }

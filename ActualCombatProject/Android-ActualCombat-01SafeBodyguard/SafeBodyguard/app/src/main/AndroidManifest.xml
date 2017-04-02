@@ -63,7 +63,11 @@
         <activity android:name=".activity.ProcessManagerActivity"/>
         <activity android:name=".activity.ProcessManagerSettingActivity"/>
         <activity android:name=".activity.CommonPhoneActivity"/>
-        <activity android:name=".activity.AppLockActivity"/>
+        <activity android:name=".activity.AppSetLockActivity"/>
+        <activity
+            android:name=".activity.LockAppActivity"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
@@ -118,6 +122,7 @@
             android:enabled="true"
             android:exported="true">
         </service>
+
     </application>
 
 </manifest>
