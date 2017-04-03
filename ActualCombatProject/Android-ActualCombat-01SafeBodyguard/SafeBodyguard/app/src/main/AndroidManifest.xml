@@ -66,8 +66,8 @@
         <activity android:name=".activity.AppSetLockActivity"/>
         <activity
             android:name=".activity.LockAppActivity"
-            android:launchMode="singleInstance"
-            android:excludeFromRecents="true"/>
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"/>
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
@@ -123,6 +123,8 @@
             android:exported="true">
         </service>
 
+        <activity android:name=".activity.AntiVirusActivity">
+        </activity>
     </application>
 
 </manifest>

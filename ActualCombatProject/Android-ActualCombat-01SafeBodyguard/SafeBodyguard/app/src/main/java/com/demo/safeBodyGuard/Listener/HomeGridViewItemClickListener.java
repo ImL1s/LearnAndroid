@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.activity.AToolActivity;
+import com.demo.safeBodyGuard.activity.AntiVirusActivity;
 import com.demo.safeBodyGuard.activity.AppManagerActivity;
 import com.demo.safeBodyGuard.activity.BlackListActivity;
 import com.demo.safeBodyGuard.activity.ProcessManagerActivity;
@@ -54,6 +55,10 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showProcessManagerActivity();
                 break;
 
+            case 5:
+                showAntiVirusActivity();
+                break;
+
             case 7:
                 showAToolActivity();
                 break;
@@ -62,6 +67,10 @@ public class HomeGridViewItemClickListener implements AdapterView.OnItemClickLis
                 showSettingActivity();
                 break;
         }
+    }
+
+    private void showAntiVirusActivity() {
+        mContext.startActivity(new Intent(mContext, AntiVirusActivity.class));
     }
 
     private void showProcessManagerActivity()
