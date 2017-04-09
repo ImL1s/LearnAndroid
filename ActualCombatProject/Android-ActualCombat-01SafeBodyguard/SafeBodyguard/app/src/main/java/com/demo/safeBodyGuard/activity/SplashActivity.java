@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.demo.safeBodyGuard.R;
 import com.demo.safeBodyGuard.db.dao.AddressDAO;
+import com.demo.safeBodyGuard.db.dao.AntiVirusDAO;
 import com.demo.safeBodyGuard.db.dao.CommonPhoneDAO;
+import com.demo.safeBodyGuard.db.dao.model.AntiVirus;
 import com.demo.safeBodyGuard.define.Config;
 import com.demo.safeBodyGuard.define.HandlerProtocol;
 import com.demo.safeBodyGuard.handler.IActivityHandler;
@@ -88,6 +90,10 @@ public class SplashActivity extends BaseActivity
         CommonPhoneDAO.setDBPath(dbFile.getAbsolutePath());
 
         DbUtil.copyDbToDbFolder(this, dbFile, Config.DB_FILE_NAME_COMMON_PHONE);
+
+        dbFile = new File(dbDir,Config.DB_FILE_NAME_ANTI_VIRUS);
+        AntiVirusDAO.setDBPath(dbFile.getAbsolutePath());
+        DbUtil.copyDbToDbFolder(getApplicationContext(),dbFile,Config.DB_FILE_NAME_ANTI_VIRUS);
         //        File dbDir = getFilesDir();
         //        File dbFile = new File(dbDir, Config.DB_FILE_NAME_ADDRESS);
         //        AddressDAO.setDBPath(dbFile.getAbsolutePath());

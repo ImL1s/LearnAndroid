@@ -87,6 +87,9 @@ public class Config {
     public static final String DB_FILE_NAME_ADDRESS = "address.db";
 
     public static final String DB_FILE_NAME_COMMON_PHONE = "commonnum.db";
+
+    public static final String DB_FILE_NAME_ANTI_VIRUS = "antivirus.db";
+
     //endregion
 
 
