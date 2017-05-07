@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ys="http://schemas.android.com/apk/com.example.a05_custom_switch"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iml1s.a04_customcontrols.MainActivity">
+
+    <com.example.a05_custom_switch.YSToggleButton
+        android:id="@+id/ys_toggle_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        ys:slide_src="@drawable/slide_button" />
+
+</RelativeLayout>

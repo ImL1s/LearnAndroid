@@ -45,7 +45,7 @@ public class SplashActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        int a = 1/0;
         initData();
         createIcon();
         initDatabase();
